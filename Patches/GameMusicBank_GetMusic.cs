@@ -8,7 +8,7 @@ using Nick;
 using UnityEngine;
 using static Nick.MusicMetaData;
 using UnityEngine.Networking;
-using NickCustomMusic;
+using NickCustomMusicMod;
 
 namespace NickCustomMusicMod.Patches
 {
@@ -53,13 +53,11 @@ namespace NickCustomMusicMod.Patches
 			}
 			music.clip = DownloadHandlerAudioClip.GetContent(audioLoader);
 			GameMusicSystem gmsInstance;
-			GameMusicSystem.TryGetInstance(out gmsInstance) {
-				gmsInstance.InvokeMethod("play", new object[]
-				{
-					entry.id,
-					music
-				});
-			}
+			if (GameMusicSystem.TryGetInstance(out gmsInstance)) {
+				// ????
+				gmsInstance.InvokeMethod();
+
+            };
 
 			yield break;
 		}

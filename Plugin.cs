@@ -4,7 +4,7 @@ using HarmonyLib;
 using System;
 using System.Reflection;
 
-namespace NickCustomMusic
+namespace NickCustomMusicMod
 {
     [BepInPlugin(PluginInfo.PLUGIN_GUID, PluginInfo.PLUGIN_NAME, PluginInfo.PLUGIN_VERSION)]
     public class Plugin : BaseUnityPlugin

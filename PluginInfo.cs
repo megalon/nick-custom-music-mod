@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace NickCustomMusic
+namespace NickCustomMusicMod
 {
     class PluginInfo
     {
