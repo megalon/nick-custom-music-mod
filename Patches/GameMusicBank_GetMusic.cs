@@ -11,6 +11,7 @@ using UnityEngine.Networking;
 using NickCustomMusicMod;
 using NickCustomMusicMod.Utils;
 using NickCustomMusicMod.Management;
+using System.Linq;
 
 namespace NickCustomMusicMod.Patches
 {
@@ -19,19 +20,59 @@ namespace NickCustomMusicMod.Patches
     {
         static bool Prefix(ref string id)
 		{
+			Debug.Log($"GetMusic: {id}");
+
+			Plugin.previousMusicID = id;
+
+			if (CustomMusicManager.songDictionaries.ContainsKey(id))
+			{
+				Dictionary<string, MusicItem> musicDict = CustomMusicManager.songDictionaries[id];
+				int numSongs = musicDict.Keys.Count;
+
+				if (numSongs > 0)
+				{
+					string randomSong = musicDict.Keys.ToArray<string>()[UnityEngine.Random.Range(0, numSongs)];
+					MusicItem musicEntry = musicDict[randomSong];
+
+					// Intercept the ID and use our custom one
+					id = musicEntry.id;
+					Debug.Log($"set newMusicId to: {id}");
+				}
+				else
+				{
+					Debug.LogWarning($"No songs found for {id}! Using default music instead.");
+				}
+			}
+
 			// Intercept custom songs
 			if (id.StartsWith("CUSTOM_"))
             {
 				// Custom music here
-				Debug.Log("Attempting to access values");
+				Debug.Log($"Attempting to load custom song for id: {id}");
 
-				MusicItem musicEntry = CustomMusicManager.songEntries[id];
+				MusicItem musicItem = null;
 
-				Debug.Log("Loading song from " + musicEntry.resLocation);
-				Plugin.Instance.StartCoroutine(LoadCustomSong(musicEntry));
-				return false;
+				// Get MusicItem from dictionary
+				foreach (Dictionary<string, MusicItem> keyValuePairs in CustomMusicManager.songDictionaries.Values)
+                {
+					if (keyValuePairs.ContainsKey(id))
+                    {
+						musicItem = keyValuePairs[id];
+						break;
+					}
+                }
+
+				if (musicItem != null)
+				{
+					Debug.Log("Loading song from " + musicItem.resLocation);
+					Plugin.Instance.StartCoroutine(LoadCustomSong(musicItem));
+					return false;
+				}
+
+				Debug.LogError($"Error! Could not find {id} in key value pairs inside CustomMusicManager.songDictionaries");
             }
-            return true;
+
+			return true;
 		}
 
 		public static IEnumerator LoadCustomSong(MusicItem entry)

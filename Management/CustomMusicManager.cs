@@ -15,24 +15,26 @@ namespace NickCustomMusicMod.Management
 	{
         public static void Init()
         {
-            Task.Run(delegate ()
+			songDictionaries = new Dictionary<string, Dictionary<string, MusicItem>>();
+
+			Task.Run(delegate ()
 			{
 				foreach (string stageID in Consts.StageIDs)
 				{
-					LoadSongsFromFolder(Path.Combine("Stages", stageID));
+					LoadSongsFromFolder("Stages", stageID);
 				}
 				foreach (string menuID in Consts.MenuIDs)
 				{
-					LoadSongsFromFolder(Path.Combine("Menus", menuID));
+					LoadSongsFromFolder("Menus", menuID);
 				}
 			});
         }
 
-		public static void LoadSongsFromFolder(string folderName)
+		public static void LoadSongsFromFolder(string parentFolderName, string folderName)
 		{
-			string path = Path.Combine(Paths.BepInExRootPath, Path.Combine("CustomSongs", folderName));
+			string path = Path.Combine(Paths.BepInExRootPath, Path.Combine("CustomSongs", parentFolderName, folderName));
 			Directory.CreateDirectory(path);
-			CustomMusicManager.songEntries = new Dictionary<string, MusicItem>();
+			Dictionary<string, MusicItem> musicItemDict = new Dictionary<string, MusicItem>();
 			foreach (string text in from x in Directory.GetFiles(path)
 				where x.ToLower().EndsWith(".ogg") || x.ToLower().EndsWith(".wav")
 				select x)
@@ -48,9 +50,12 @@ namespace NickCustomMusicMod.Management
 					resLocation = text,
 				};
 
-				songEntries.Add(music.id, music);
+				musicItemDict.Add(music.id, music);
 			}
+
+			songDictionaries.Add(folderName, musicItemDict);
 		}
-		internal static Dictionary<string, MusicItem> songEntries;
+
+		internal static Dictionary<string, Dictionary<string, MusicItem>> songDictionaries;
 	}
 }

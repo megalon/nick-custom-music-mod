@@ -20,27 +20,20 @@ namespace NickCustomMusicMod.Patches
 		{
 			// Fix startup case where string is empty
 			if (newMusicId.Equals("")) newMusicId = "MainMenu";
-			
+
 			Debug.Log($"newMusicId: {newMusicId}");
 
-			if (newMusicId.Equals("MainMenu"))
+			// Special case for main menu to prevent it from restarting when you navigate menu system
+			if (Plugin.previousMusicID != null)
 			{
-				// Custom music here
-				int numSongs = CustomMusicManager.songEntries.Keys.Count<string>();
-
-				if (numSongs > 0)
+				Debug.Log($"Plugin.previousMusicID: {Plugin.previousMusicID}");
+				if (newMusicId.Equals("MainMenu") && Plugin.previousMusicID.Equals("MainMenu"))
 				{
-					string randomSong = CustomMusicManager.songEntries.Keys.ToArray<string>()[UnityEngine.Random.Range(0, numSongs)];
-					MusicItem musicEntry = CustomMusicManager.songEntries[randomSong];
-
-					// Intercept the ID and use our custom one
-					newMusicId = musicEntry.id;
-					Debug.Log($"set newMusicId to: {newMusicId}");
-                } else
-                {
-					Debug.LogWarning("No songs found in CustomMusicManager! Using default music.");
+					Debug.Log($"previousMusicID was {Plugin.previousMusicID}! Not skipping StartMusic");
+					return false;
 				}
 			}
+			Plugin.previousMusicID = newMusicId;
 			return true;
 		}
 	}

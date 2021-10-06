@@ -11,6 +11,7 @@ namespace NickCustomMusicMod
     public class Plugin : BaseUnityPlugin
     {
         internal static Plugin Instance;
+        internal static string previousMusicID;
         private void Awake()
         {
             Logger.LogDebug($"Plugin {PluginInfo.PLUGIN_NAME} is loaded!");
