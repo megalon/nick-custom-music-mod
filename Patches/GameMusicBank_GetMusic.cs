@@ -19,17 +19,33 @@ namespace NickCustomMusicMod.Patches
     {
         static bool Prefix(ref string id)
 		{
+			Debug.Log($"GetMusic: {id}");
 			// Intercept custom songs
 			if (id.StartsWith("CUSTOM_"))
             {
 				// Custom music here
-				Debug.Log("Attempting to access values");
+				Debug.Log("WARNING! Not actually loading song due to nested dictionaries");
 
-				MusicItem musicEntry = CustomMusicManager.songEntries[id];
+				MusicItem musicItem = null;
 
-				Debug.Log("Loading song from " + musicEntry.resLocation);
-				Plugin.Instance.StartCoroutine(LoadCustomSong(musicEntry));
-				return false;
+				// Get MusicItem from dictionary
+				foreach (Dictionary<string, MusicItem> keyValuePairs in CustomMusicManager.songDictionaries.Values)
+                {
+					if (keyValuePairs.ContainsKey(id))
+                    {
+						musicItem = keyValuePairs[id];
+						break;
+					}
+                }
+
+				if (musicItem != null)
+				{
+					Debug.Log("Loading song from " + musicItem.resLocation);
+					Plugin.Instance.StartCoroutine(LoadCustomSong(musicItem));
+					return false;
+				}
+
+				Debug.LogError($"Error! Could not find {id} in key value pairs inside CustomMusicManager.songDictionaries");
             }
             return true;
 		}

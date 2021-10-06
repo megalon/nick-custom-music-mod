@@ -23,22 +23,22 @@ namespace NickCustomMusicMod.Patches
 			
 			Debug.Log($"newMusicId: {newMusicId}");
 
-			if (newMusicId.Equals("MainMenu"))
+			if (CustomMusicManager.songDictionaries.ContainsKey(newMusicId))
 			{
-				// Custom music here
-				int numSongs = CustomMusicManager.songEntries.Keys.Count<string>();
+				Dictionary<string, MusicItem> musicDict = CustomMusicManager.songDictionaries[newMusicId];
+				int numSongs = musicDict.Keys.Count<string>();
 
 				if (numSongs > 0)
 				{
-					string randomSong = CustomMusicManager.songEntries.Keys.ToArray<string>()[UnityEngine.Random.Range(0, numSongs)];
-					MusicItem musicEntry = CustomMusicManager.songEntries[randomSong];
+					string randomSong = musicDict.Keys.ToArray<string>()[UnityEngine.Random.Range(0, numSongs)];
+					MusicItem musicEntry = musicDict[randomSong];
 
 					// Intercept the ID and use our custom one
 					newMusicId = musicEntry.id;
 					Debug.Log($"set newMusicId to: {newMusicId}");
                 } else
                 {
-					Debug.LogWarning("No songs found in CustomMusicManager! Using default music.");
+					Debug.LogWarning($"No songs found for {newMusicId}! Using default music instead.");
 				}
 			}
 			return true;
