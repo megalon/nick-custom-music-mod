@@ -20,7 +20,6 @@ namespace NickCustomMusicMod.Patches
     {
         static bool Prefix(ref string id)
 		{
-
 			Plugin.previousMusicID = id;
 
 			// Get a random song for this stage / menu
@@ -35,12 +34,12 @@ namespace NickCustomMusicMod.Patches
 					MusicItem musicEntry = musicDict[randomSong];
 
 					// Intercept the ID and use our custom one
+					Plugin.LogDebug($"Intercepting GetMusic id: {id} and changing to {musicEntry.id}");
 					id = musicEntry.id;
-					Debug.Log($"set newMusicId to: {id}");
 				}
 				else
 				{
-					Debug.LogWarning($"No songs found for {id}! Using default music instead.");
+					Plugin.LogInfo($"No songs found for {id}! Using default music instead.");
 				}
 			}
 
@@ -48,7 +47,7 @@ namespace NickCustomMusicMod.Patches
 			if (id.StartsWith("CUSTOM_"))
             {
 				// Custom music here
-				Debug.Log($"Attempting to load custom song for id: {id}");
+				Plugin.LogInfo($"Attempting to load custom song for id: {id}");
 
 				MusicItem musicItem = null;
 
@@ -64,7 +63,7 @@ namespace NickCustomMusicMod.Patches
 
 				if (musicItem != null)
 				{
-					Debug.Log("Loading song from " + musicItem.resLocation);
+					Plugin.LogInfo("Loading song: " + musicItem.resLocation);
 					Plugin.Instance.StartCoroutine(LoadCustomSong(musicItem));
 					return false;
 				}

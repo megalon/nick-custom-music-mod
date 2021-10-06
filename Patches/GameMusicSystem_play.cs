@@ -20,7 +20,8 @@ namespace NickCustomMusicMod.Patches
     {
         static bool Prefix(ref string id, ref GameMusic sm)
         {
-            Debug.Log($"GameMusicSystem_play: {id}");
+            // This is just useful to check that things are working
+            Plugin.LogDebug($"GameMusicSystem_play: {id}");
             return true;
         }
     }
