@@ -3,6 +3,7 @@ using BepInEx.Logging;
 using HarmonyLib;
 using System;
 using System.Reflection;
+using NickCustomMusicMod.Management;
 
 namespace NickCustomMusicMod
 {
@@ -25,6 +26,8 @@ namespace NickCustomMusicMod
 
             // Harmony patches
             Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly());
+
+            CustomMusicManager.Init();
         }
 
         internal static void LogDebug(string message) => Instance.Log(message, LogLevel.Debug);

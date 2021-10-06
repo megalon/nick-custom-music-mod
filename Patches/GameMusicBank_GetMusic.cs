@@ -9,19 +9,30 @@ using UnityEngine;
 using static Nick.MusicMetaData;
 using UnityEngine.Networking;
 using NickCustomMusicMod;
+using NickCustomMusicMod.Utils;
+using NickCustomMusicMod.Management;
 
 namespace NickCustomMusicMod.Patches
 {
     [HarmonyPatch(typeof(GameMusicBank), "GetMusic")]
     class GameMusicBank_GetMusic
     {
-        static bool Prefix(ref string id, ref GameMusic gm)
-        {
-            if (id.Equals("MAIN"))
+        static bool Prefix(ref string id)
+		{
+			// Intercept custom songs
+			if (id.StartsWith("CUSTOM_"))
             {
-                // Custom music here
+				// Custom music here
+				Debug.Log("Attempting to access values");
 
-                return false;
+				// Get first element from dictionary, I think
+				var e = CustomMusicManager.songEntries.Values.GetEnumerator();
+				e.MoveNext();
+				MusicItem musicEntry = e.Current;
+
+				Debug.Log("Loading song from " + musicEntry.resLocation);
+				Plugin.Instance.StartCoroutine(LoadCustomSong(musicEntry));
+				return false;
             }
             return true;
 		}
@@ -47,17 +58,14 @@ namespace NickCustomMusicMod.Patches
 			yield return audioLoader.SendWebRequest();
 			if (audioLoader.error != null)
 			{
-				//Plugin.Instance.LogError(audioLoader.error);
 				Debug.LogError(audioLoader.error);
 				yield break;
 			}
 			music.clip = DownloadHandlerAudioClip.GetContent(audioLoader);
 			GameMusicSystem gmsInstance;
 			if (GameMusicSystem.TryGetInstance(out gmsInstance)) {
-				// ????
-				gmsInstance.InvokeMethod();
-
-            };
+				gmsInstance.InvokeMethod("play", entry.id, music);
+			};
 
 			yield break;
 		}
