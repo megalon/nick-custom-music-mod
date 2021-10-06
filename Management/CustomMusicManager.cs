@@ -7,22 +7,30 @@ using System.Threading.Tasks;
 using BepInEx;
 using Nick;
 using static Nick.MusicMetaData;
+using NickCustomMusicMod.Utils;
 
 namespace NickCustomMusicMod.Management
 {
     internal class CustomMusicManager
-	{ 
-		public static void Init()
-		{
-			Task.Run(delegate ()
+	{
+        public static void Init()
+        {
+            Task.Run(delegate ()
 			{
-				LoadSongsFromFolder();
+				foreach (string stageID in Consts.StageIDs)
+				{
+					LoadSongsFromFolder(Path.Combine("Stages", stageID));
+				}
+				foreach (string menuID in Consts.MenuIDs)
+				{
+					LoadSongsFromFolder(Path.Combine("Menus", menuID));
+				}
 			});
-		}
+        }
 
-		public static void LoadSongsFromFolder()
+		public static void LoadSongsFromFolder(string folderName)
 		{
-			string path = Path.Combine(Paths.BepInExRootPath, "CustomSongs");
+			string path = Path.Combine(Paths.BepInExRootPath, Path.Combine("CustomSongs", folderName));
 			Directory.CreateDirectory(path);
 			CustomMusicManager.songEntries = new Dictionary<string, MusicItem>();
 			foreach (string text in from x in Directory.GetFiles(path)
