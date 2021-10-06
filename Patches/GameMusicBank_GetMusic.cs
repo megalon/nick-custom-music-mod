@@ -20,7 +20,6 @@ namespace NickCustomMusicMod.Patches
     {
         static bool Prefix(ref string id)
 		{
-			Debug.Log($"GetMusic: {id}");
 
 			Plugin.previousMusicID = id;
 
