@@ -25,10 +25,7 @@ namespace NickCustomMusicMod.Patches
 				// Custom music here
 				Debug.Log("Attempting to access values");
 
-				// Get first element from dictionary, I think
-				var e = CustomMusicManager.songEntries.Values.GetEnumerator();
-				e.MoveNext();
-				MusicItem musicEntry = e.Current;
+				MusicItem musicEntry = CustomMusicManager.songEntries[id];
 
 				Debug.Log("Loading song from " + musicEntry.resLocation);
 				Plugin.Instance.StartCoroutine(LoadCustomSong(musicEntry));

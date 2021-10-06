@@ -9,6 +9,7 @@ using UnityEngine.Networking;
 using NickCustomMusicMod;
 using NickCustomMusicMod.Utils;
 using NickCustomMusicMod.Management;
+using System.Linq;
 
 namespace NickCustomMusicMod.Patches
 {
@@ -17,20 +18,28 @@ namespace NickCustomMusicMod.Patches
 	{
 		static bool Prefix(ref string newMusicId)
 		{
+			// Fix startup case where string is empty
+			if (newMusicId.Equals("")) newMusicId = "MainMenu";
+			
 			Debug.Log($"newMusicId: {newMusicId}");
-			if (newMusicId.Equals("MainMenu") || newMusicId.Equals(""))
+
+			if (newMusicId.Equals("MainMenu"))
 			{
 				// Custom music here
-				Debug.Log("Attempting to access values");
+				int numSongs = CustomMusicManager.songEntries.Keys.Count<string>();
 
-				// Get first element from dictionary, I think
-				var e = CustomMusicManager.songEntries.Values.GetEnumerator();
-				e.MoveNext();
-				MusicItem musicEntry = e.Current;
+				if (numSongs > 0)
+				{
+					string randomSong = CustomMusicManager.songEntries.Keys.ToArray<string>()[UnityEngine.Random.Range(0, numSongs)];
+					MusicItem musicEntry = CustomMusicManager.songEntries[randomSong];
 
-				// Intercept the ID and use our custom one
-				newMusicId = musicEntry.id;
-				Debug.Log($"set newMusicId to: {newMusicId}");
+					// Intercept the ID and use our custom one
+					newMusicId = musicEntry.id;
+					Debug.Log($"set newMusicId to: {newMusicId}");
+                } else
+                {
+					Debug.LogWarning("No songs found in CustomMusicManager! Using default music.");
+				}
 			}
 			return true;
 		}

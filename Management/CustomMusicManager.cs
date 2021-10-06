@@ -30,6 +30,8 @@ namespace NickCustomMusicMod.Management
 				select x)
 				{
 				string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(text);
+
+				Console.WriteLine($"Loaded {text}");
 					
 				MusicItem music = new MusicItem
 				{
