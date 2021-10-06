@@ -31,6 +31,8 @@ Place `.wav`, `.ogg`, or `.mp3` files into the folder corresponding to the stage
 
 For example, if you want to use a different song for the Jellyfish Fields stage, place the audio file in `BepInEx\CustomSongs\Stages\SlideHouse`
 
+If multiple audio files are in the same folder, one is randomly selected each time that stage / menu is loaded!
+
 The folder names correspond to the ingame ID for each stage / menu. Some of them have confusing names! See the list below.
 
 Stages
