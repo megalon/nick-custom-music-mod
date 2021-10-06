@@ -36,7 +36,7 @@ The folder names correspond to the ingame ID for each stage / menu. Some of them
 Stages
 ```
 Armada --------- Irken Armada Invasion
-CarnivalLofi --- GloveWorld
+CarnivalLofi --- Glove World
 Drome ---------- Technodrom Takedown
 DuoKitchen ----- Powdered Toast Trouble
 DuoMadness ----- Space Madness
@@ -59,11 +59,11 @@ Zone ----------- Ghost Zone
 
 Menus
 ```
-ArcadeMap
-LoseV1
-LoseV2
-MainMenu
-OnlineMenu
-Versus
-Victory
+ArcadeMap ----
+LoseV1 ------- 
+LoseV2 ------- Not sure why there are two of these yet
+MainMenu -----
+OnlineMenu --- The MainMenu music tends to override this
+Versus -------
+Victory ------
 ```
