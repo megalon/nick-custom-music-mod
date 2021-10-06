@@ -1,0 +1,13 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace NickCustomMusic
+{
+    class PluginInfo
+    {
+        public const string PLUGIN_GUID = "megalon.nick_custom_music_mod";
+        public const string PLUGIN_NAME = "NickCustomMusicMod";
+        public const string PLUGIN_VERSION = "1.0.0";
+    }
+}
