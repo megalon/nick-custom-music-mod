@@ -9,7 +9,7 @@ Simply go to the [latest BepinEx release](https://github.com/BepInEx/BepInEx/rel
 
 Next, go to the [latest release of this mod](https://github.com/megalon/NickCustomMusicMod/releases/latest) and extract the zip in your game's install directory.
 
-This will place the dll in `BepInEx\plugins\`, and the create then `BepInEx\CustomSongs\*` folder structure.
+This will place the dll in `BepInEx\plugins\`, and then create the `BepInEx\CustomSongs\*` folder structure.
 
 ## Usage
 
