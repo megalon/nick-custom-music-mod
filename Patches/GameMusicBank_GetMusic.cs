@@ -23,6 +23,7 @@ namespace NickCustomMusicMod.Patches
 
 			Plugin.previousMusicID = id;
 
+			// Get a random song for this stage / menu
 			if (CustomMusicManager.songDictionaries.ContainsKey(id))
 			{
 				Dictionary<string, MusicItem> musicDict = CustomMusicManager.songDictionaries[id];
@@ -78,20 +79,23 @@ namespace NickCustomMusicMod.Patches
 		{
 			GameMusic music = new GameMusic();
 			AudioType audioType = AudioType.UNKNOWN;
-			string a = Path.GetExtension(entry.resLocation).ToLower();
-			if (!(a == ".ogg"))
+
+			switch (Path.GetExtension(entry.resLocation).ToLower())
 			{
-				if (a == ".wav")
-				{
+				case ".wav":
 					audioType = AudioType.WAV;
-				}
-			}
-			else
-			{
-				audioType = AudioType.OGGVORBIS;
+					break;
+				case ".mp3":
+					audioType = AudioType.MPEG;
+					break;
+				case ".ogg":
+					audioType = AudioType.OGGVORBIS;
+					break;
+				default:
+					yield break;
 			}
 
-            UnityWebRequest audioLoader = UnityWebRequestMultimedia.GetAudioClip(entry.resLocation, audioType);
+			UnityWebRequest audioLoader = UnityWebRequestMultimedia.GetAudioClip(entry.resLocation, audioType);
 			yield return audioLoader.SendWebRequest();
 			if (audioLoader.error != null)
 			{

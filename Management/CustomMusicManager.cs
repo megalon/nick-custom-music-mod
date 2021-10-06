@@ -36,7 +36,7 @@ namespace NickCustomMusicMod.Management
 			Directory.CreateDirectory(path);
 			Dictionary<string, MusicItem> musicItemDict = new Dictionary<string, MusicItem>();
 			foreach (string text in from x in Directory.GetFiles(path)
-				where x.ToLower().EndsWith(".ogg") || x.ToLower().EndsWith(".wav")
+				where x.ToLower().EndsWith(".ogg") || x.ToLower().EndsWith(".wav") || x.ToLower().EndsWith(".mp3")
 				select x)
 				{
 				string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(text);
