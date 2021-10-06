@@ -35,26 +35,26 @@ The folder names correspond to the ingame ID for each stage / menu. Some of them
 
 Stages
 ```
-Armada
-CarnivalLofi
-Drome
-DuoKitchen
-DuoMadness
-House
-Loud
-Omashu
-Playground
-Rooftop
-SewersCombined
-Shanty
-SlideHouse
-SpiritWorld
-Stomp
-Temple2
-Trash
-Waterfall
-YMC
-Zone
+Armada --------- Irken Armada Invasion
+CarnivalLofi --- GloveWorld
+Drome ---------- Technodrom Takedown
+DuoKitchen ----- Powdered Toast Trouble
+DuoMadness ----- Space Madness
+House ---------- CatDog's House
+Loud ----------- The Loud House
+Omashu --------- Omashu
+Playground ----- Showdown at Teeter Totter Gulch
+Rooftop -------- Rooftop Rumble
+SewersCombined - Sewers Slam
+Shanty --------- The Flying Dutchman's Ship
+SlideHouse ----- Jellyfish Fields
+SpiritWorld ---- Harmonic Convergence
+Stomp ---------- Traffic Jam
+Temple2 -------- Western Air Temple
+Trash ---------- The Dump
+Waterfall ------ Wild Waterfall
+YMC ------------ Royal Woods Cemetery
+Zone ----------- Ghost Zone
 ```
 
 Menus
