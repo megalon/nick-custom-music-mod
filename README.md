@@ -13,8 +13,6 @@ This will place the dll in `BepInEx\plugins\`, and the create the `BepInEx\Custo
 
 ## Usage
 
-Place a `.wav`, `.ogg`, or `.mp3` files into the folder corresponding to the stage or menu you want to change.
-
 Folder structure
 ```
 BepInEx
@@ -27,4 +25,45 @@ BepInEx
             ↳ Armada
             ↳ CarnivalLofi
               ...
+```
+
+Place `.wav`, `.ogg`, or `.mp3` files into the folder corresponding to the stage or menu you want to change.
+
+For example, if you want to use a different song for the Jellyfish Fields stage, place the audio file in `BepInEx\CustomSongs\Stages\SlideHouse`
+
+The folder names correspond to the ingame ID for each stage / menu. Some of them have confusing names! See the list below.
+
+Stages
+```
+Armada
+CarnivalLofi
+Drome
+DuoKitchen
+DuoMadness
+House
+Loud
+Omashu
+Playground
+Rooftop
+SewersCombined
+Shanty
+SlideHouse
+SpiritWorld
+Stomp
+Temple2
+Trash
+Waterfall
+YMC
+Zone
+```
+
+Menus
+```
+ArcadeMap
+LoseV1
+LoseV2
+MainMenu
+OnlineMenu
+Versus
+Victory
 ```
