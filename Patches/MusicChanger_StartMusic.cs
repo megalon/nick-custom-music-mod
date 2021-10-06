@@ -20,8 +20,20 @@ namespace NickCustomMusicMod.Patches
 		{
 			// Fix startup case where string is empty
 			if (newMusicId.Equals("")) newMusicId = "MainMenu";
-			
+
 			Debug.Log($"newMusicId: {newMusicId}");
+
+			// Special case for main menu to prevent it from restarting when you navigate menu system
+			if (Plugin.previousMusicID != null)
+			{
+				Debug.Log($"Plugin.previousMusicID: {Plugin.previousMusicID}");
+				if (newMusicId.Equals("MainMenu") && Plugin.previousMusicID.Equals("MainMenu"))
+				{
+					Debug.Log($"previousMusicID was {Plugin.previousMusicID}! Not skipping StartMusic");
+					return false;
+				}
+			}
+			Plugin.previousMusicID = newMusicId;
 			return true;
 		}
 	}

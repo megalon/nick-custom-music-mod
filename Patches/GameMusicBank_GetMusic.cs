@@ -22,6 +22,8 @@ namespace NickCustomMusicMod.Patches
 		{
 			Debug.Log($"GetMusic: {id}");
 
+			Plugin.previousMusicID = id;
+
 			if (CustomMusicManager.songDictionaries.ContainsKey(id))
 			{
 				Dictionary<string, MusicItem> musicDict = CustomMusicManager.songDictionaries[id];
@@ -69,7 +71,8 @@ namespace NickCustomMusicMod.Patches
 
 				Debug.LogError($"Error! Could not find {id} in key value pairs inside CustomMusicManager.songDictionaries");
             }
-            return true;
+
+			return true;
 		}
 
 		public static IEnumerator LoadCustomSong(MusicItem entry)
