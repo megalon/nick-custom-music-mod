@@ -11,27 +11,26 @@ namespace NickCustomMusicMod.Utils
     public static class Consts
     {
         public static readonly Dictionary<string, string> StageIDs = {
-            { "Jellyfish Fields", "SlideHouse" }
-            /*"Shanty",
-            "Rooftop",
-            "Trash",
-            "Loud",
-            "CarnivalLofi",
-            "SewersCombined",
-            "Armada",
-            "Drome",
-            "YMC",
-            "House",
-            "Stomp",
-            "Temple2",
-            "Waterfall",
-            "DuoKitchen",
-            "Zone",
-            "DuoMadness",
-            "SpiritWorld",
-            "Omashu",
-            "Playground"
-            */
+            { "Jellyfish Fields", "SlideHouse" },
+            { "The Flying Dutchmans Ship", "Shanty" },
+            { "Rooftop Rumble", "Rooftop" },
+            { "The Dump", "Trash" },
+            { "The Loud House", "Loud" },
+            { "Glove World", "CarnivalLofi" },
+            { "Sewers Slam", "SewersCombined" },
+            { "Irken Armada Invasion", "Armada" },
+            { "Technodrom Takedown", "Drome" },
+            { "Royal Woods Cemetery", "YMC" },
+            { "CatDog's House", "House" },
+            { "Traffic Jam", "Stomp" },
+            { "Western Air Temple", "Temple2" },
+            { "Wild Waterfall", "Waterfall" },
+            { "Powdered Toast Trouble", "DuoKitchen" },
+            { "Ghost Zone", "Zone" },
+            { "Powdered Toast Trouble", "DuoMadness" },
+            { "Harmonic Convergence", "SpiritWorld" },
+            { "Omashu", "Omashu" },
+            { "Showdown at Teeter Totter Gulch", "Playground" }
         };
 
         public static readonly string[] MenuIDs = { 
