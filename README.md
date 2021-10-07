@@ -2,6 +2,16 @@
 
 This mod allows you to add custom songs to each stage and menu in the game!
 
+# > "My .mp3 didn't work!"
+I've had multiple people unable to load certain mp3 files.
+
+If you've downloaded a file from a youtube downloader, such as `ytmp3.cc`, your file might actually be an `.m4a` disguised as a `.mp3`
+
+Unity cannot load these (it seems).
+
+Use a different converter, or convert to `.ogg` instead! Thanks.
+
+
 ## Installation
 
 *If your game isn't modded with BepinEx, DO THAT FIRST!*
