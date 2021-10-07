@@ -27,14 +27,14 @@ namespace NickCustomMusicMod.Management
 				Directory.CreateDirectory(rootCustomSongsPath);
 
 				// Generate folders, incase any were deleted
-				foreach (string menuID in Consts.MenuIDs)
+				foreach (string string in Consts.MenuIDs)
 				{
 					Directory.CreateDirectory(Path.Combine(rootCustomSongsPath, "Menus", menuID));
 				}
 
-				foreach (string stageID in Consts.StageIDs)
+				foreach (string stageName in Consts.StageIDs.Keys)
 				{
-					Directory.CreateDirectory(Path.Combine(rootCustomSongsPath, "Stages", stageID));
+					Directory.CreateDirectory(Path.Combine(rootCustomSongsPath, "Stages", stageName));
 				}
 
 				// Load songs
@@ -82,7 +82,14 @@ namespace NickCustomMusicMod.Management
 				musicItemDict.Add(music.id, music);
 			}
 
-			songDictionaries.Add(folderName, musicItemDict);
+			songDictionaries.Add(TranslateFolderNameToID(folderName), musicItemDict);
+		}
+
+		public static string TranslateFolderNameToID(string folderName) {
+			if (Consts.StageIDs.ContainsKey(folderName)) {
+				return Consts.StageIDs[folderName]
+			}
+			return folderName;
 		}
 
 		internal static Dictionary<string, Dictionary<string, MusicItem>> songDictionaries;

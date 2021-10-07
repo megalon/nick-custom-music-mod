@@ -10,9 +10,9 @@ namespace NickCustomMusicMod.Utils
     // incase extra stages are added in the future.
     public static class Consts
     {
-        public static readonly string[] StageIDs = {
-            "SlideHouse",
-            "Shanty",
+        public static readonly Dictionary<string, string> StageIDs = {
+            { "Jellyfish Fields", "SlideHouse" }
+            /*"Shanty",
             "Rooftop",
             "Trash",
             "Loud",
@@ -31,6 +31,7 @@ namespace NickCustomMusicMod.Utils
             "SpiritWorld",
             "Omashu",
             "Playground"
+            */
         };
 
         public static readonly string[] MenuIDs = { 
