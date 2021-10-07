@@ -87,7 +87,7 @@ namespace NickCustomMusicMod.Management
 
 		public static string TranslateFolderNameToID(string folderName) {
 			if (Consts.StageIDs.ContainsKey(folderName)) {
-				return Consts.StageIDs[folderName]
+				return Consts.StageIDs[folderName];
 			}
 			return folderName;
 		}
