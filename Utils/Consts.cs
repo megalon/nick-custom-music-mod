@@ -10,7 +10,7 @@ namespace NickCustomMusicMod.Utils
     // incase extra stages are added in the future.
     public static class Consts
     {
-        public static readonly Dictionary<string, string> StageIDs = {
+        public static readonly Dictionary<string, string> StageIDs = new Dictionary<string,string> {
             { "Jellyfish Fields", "SlideHouse" },
             { "The Flying Dutchmans Ship", "Shanty" },
             { "Rooftop Rumble", "Rooftop" },
@@ -27,7 +27,6 @@ namespace NickCustomMusicMod.Utils
             { "Wild Waterfall", "Waterfall" },
             { "Powdered Toast Trouble", "DuoKitchen" },
             { "Ghost Zone", "Zone" },
-            { "Powdered Toast Trouble", "DuoMadness" },
             { "Harmonic Convergence", "SpiritWorld" },
             { "Omashu", "Omashu" },
             { "Showdown at Teeter Totter Gulch", "Playground" }
