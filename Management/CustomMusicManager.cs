@@ -27,7 +27,7 @@ namespace NickCustomMusicMod.Management
 				Directory.CreateDirectory(rootCustomSongsPath);
 
 				// Generate folders, incase any were deleted
-				foreach (string string in Consts.MenuIDs)
+				foreach (string menuID in Consts.MenuIDs)
 				{
 					Directory.CreateDirectory(Path.Combine(rootCustomSongsPath, "Menus", menuID));
 				}
