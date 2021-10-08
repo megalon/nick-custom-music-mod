@@ -45,7 +45,7 @@ If multiple audio files are in the same folder, one is randomly selected each ti
 
 # Reference
 
-Deveopers maybe be interested in this reference for the music IDs in game.
+Developers may be interested in this reference for the music IDs in game.
 
 | Stage Name | Stage ID |
 |----------|--------|
@@ -74,8 +74,8 @@ Deveopers maybe be interested in this reference for the music IDs in game.
 |-----------|-------|
 | ArcadeMap | Menu music played when you enter the Arcade mode menu|
 | LoseV1 | |
-| LoseV2 | Not sure why there are two of these yet
+| LoseV2 | Not sure why there are two of these yet |
 | MainMenu | Main menu music! |
-| OnlineMenu | The MainMenu music tends to override this
+| OnlineMenu | The MainMenu music tends to override this |
 | Versus | The "VS" text screen before match starts |
 | Victory | End of match victory screen|
