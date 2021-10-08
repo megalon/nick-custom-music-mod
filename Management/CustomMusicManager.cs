@@ -96,7 +96,7 @@ namespace NickCustomMusicMod.Management
 			var folderName = Path.GetFileName(folderPath);
 			if (Consts.StageIDs.ContainsValue(folderName)) {
 				string updatedStageName = Consts.StageIDs.FirstOrDefault(x => x.Value == folderPath).Key;
-				string updatedFolderPath = Path.Combine(Directory.GetParent(folderPath), updatedStageName);
+				string updatedFolderPath = Path.Combine(Directory.GetParent(folderPath).Name, updatedStageName);
 
 				try {
 					Directory.Move(folderPath, updatedFolderPath);
