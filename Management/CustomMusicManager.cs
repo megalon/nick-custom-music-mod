@@ -102,17 +102,46 @@ namespace NickCustomMusicMod.Management
 					Directory.Move(folderPath, updatedFolderPath);
 					return updatedStageName;
 				} catch (IOException ex){
-					Plugin.LogInfo($"Failed to rename old folder {folderName} to {updatedStageName}.");
-					Plugin.LogInfo($"Does the directory already exist?");
-					Plugin.LogError($"Exception {ex.Message}");
+					Plugin.LogInfo($"Could not rename directory! Maybe the new directory already exists?");
+					Plugin.LogInfo($"Attempting to copy files from \"{folderName}\" to \"{updatedStageName}\" instead.");
+					CopyFilesAndDeleteOriginalFolder(folderPath, updatedFolderPath);
 				}
 				catch (Exception ex)
 				{
-					Plugin.LogInfo($"Failed to rename old folder {folderName} to {updatedStageName}.");
+					Plugin.LogError($"Failed to rename old folder \"{folderName}\" to \"{updatedStageName}\"!");
 					Plugin.LogError($"Exception {ex.Message}");
 				}
 			}
 			return folderName;
+		}
+
+		public static bool CopyFilesAndDeleteOriginalFolder(string originalDirPath, string targetDirPath) {
+			string[] files = Directory.GetFiles(originalDirPath);
+
+			try {
+				// Copy the files and overwrite destination files if they already exist.
+				foreach (string filePath in files)
+				{
+					fileName = Path.GetFileName(filePath);
+					destPath = Path.Combine(targetDirPath, fileName);
+					File.Copy(filePath, destPath, true);
+				}
+
+				try {
+					// Delete og folder copying files
+					Directory.Delete(originalDirPath, true);
+				} catch(Exception ex) {
+					Plugin.LogError($"Failed to delete original folder \"{originalDirPath}\"!");
+					Plugin.LogError($"Exception {ex.Message}");
+					return false;
+				}
+			} catch(Exception ex) {
+				Plugin.LogError($"Failed to copy files from folder \"{originalDirPath}\" to \"{targetDirPath}\"!");
+				Plugin.LogError($"Exception {ex.Message}");
+				return false;
+			}
+
+			return true;
 		}
 
 		internal static Dictionary<string, Dictionary<string, MusicItem>> songDictionaries;
