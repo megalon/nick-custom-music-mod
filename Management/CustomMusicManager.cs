@@ -93,9 +93,9 @@ namespace NickCustomMusicMod.Management
 		}
 
 		public static string UpdateOldFormatAndGetName(string folderPath) {
-			var folderName = Path.GetFileName(directory);
+			var folderName = Path.GetFileName(folderPath);
 			if (Consts.StageIDs.ContainsValue(folderName)) {
-				string updatedStageName = types.FirstOrDefault(x => x.Value == folderPath).Key;
+				string updatedStageName = StageIDs.FirstOrDefault(x => x.Value == folderPath).Key;
 				string updatedFolderPath = Path.Combine(Directory.GetParent(folderPath), updatedStageName);
 
 				Directory.Move(folderPath, updatedFolderPath);
