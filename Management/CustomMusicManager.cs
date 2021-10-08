@@ -49,7 +49,7 @@ namespace NickCustomMusicMod.Management
 
 			foreach (string directory in subDirectories)
 			{
-				var directoryName = Path.GetFileName(directory);
+				var directoryName = UpdateOldFormatAndGetName(directory);
 
 				Plugin.LogDebug($"directory {directoryName} full path {directory}");
 				LoadSongsFromFolder(parentFolderName, directoryName);
@@ -88,6 +88,18 @@ namespace NickCustomMusicMod.Management
 		public static string TranslateFolderNameToID(string folderName) {
 			if (Consts.StageIDs.ContainsKey(folderName)) {
 				return Consts.StageIDs[folderName];
+			}
+			return folderName;
+		}
+
+		public static string UpdateOldFormatAndGetName(string folderPath) {
+			var folderName = Path.GetFileName(directory);
+			if (Consts.StageIDs.ContainsValue(folderName)) {
+				string updatedStageName = types.FirstOrDefault(x => x.Value == folderPath).Key;
+				string updatedFolderPath = Path.Combine(Directory.GetParent(folderPath), updatedStageName);
+
+				Directory.Move(folderPath, updatedFolderPath);
+				return updatedStageName;
 			}
 			return folderName;
 		}
