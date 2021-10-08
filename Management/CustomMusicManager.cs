@@ -26,7 +26,11 @@ namespace NickCustomMusicMod.Management
 				// Create the folder if it doesn't exist
 				Directory.CreateDirectory(rootCustomSongsPath);
 
-				// Generate folders, incase any were deleted
+				// Load songs
+				LoadFromSubDirectories("Stages");
+				LoadFromSubDirectories("Menus");
+
+				// Generate folders, incase any don't exist 
 				foreach (string menuID in Consts.MenuIDs)
 				{
 					Directory.CreateDirectory(Path.Combine(rootCustomSongsPath, "Menus", menuID));
@@ -36,10 +40,6 @@ namespace NickCustomMusicMod.Management
 				{
 					Directory.CreateDirectory(Path.Combine(rootCustomSongsPath, "Stages", stageName));
 				}
-
-				// Load songs
-				LoadFromSubDirectories("Stages");
-				LoadFromSubDirectories("Menus");
 			});
         }
 
