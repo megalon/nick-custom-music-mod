@@ -98,8 +98,19 @@ namespace NickCustomMusicMod.Management
 				string updatedStageName = Consts.StageIDs.FirstOrDefault(x => x.Value == folderPath).Key;
 				string updatedFolderPath = Path.Combine(Directory.GetParent(folderPath), updatedStageName);
 
-				Directory.Move(folderPath, updatedFolderPath);
-				return updatedStageName;
+				try {
+					Directory.Move(folderPath, updatedFolderPath);
+					return updatedStageName;
+				} catch (IOException ex){
+					Plugin.LogInfo($"Failed to rename old folder {folderName} to {updatedStageName}.");
+					Plugin.LogInfo($"Does the directory already exist?");
+					Plugin.LogError($"Exception {ex.Message}");
+				}
+				catch (Exception ex)
+				{
+					Plugin.LogInfo($"Failed to rename old folder {folderName} to {updatedStageName}.");
+					Plugin.LogError($"Exception {ex.Message}");
+				}
 			}
 			return folderName;
 		}
