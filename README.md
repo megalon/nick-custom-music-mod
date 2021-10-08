@@ -54,6 +54,7 @@ Developers may be interested in this reference for the music IDs in game.
 | Glove World | CarnivalLofi |
 | Harmonic Convergence | SpiritWorld |
 | Irken Armada Invasion | Armada |
+| Jellyfish Fields | SlideHouse |
 | Omashu | Omashu |
 | Powdered Toast Trouble | DuoKitchen |
 | Rooftop Rumble | Rooftop |
@@ -65,7 +66,6 @@ Developers may be interested in this reference for the music IDs in game.
 | The Dump | Trash |
 | The Flying Dutchman's Ship | Shanty |
 | The Loud House | Loud |
-| Jellyfish Fields | SlideHouse |
 | Traffic Jam | Stomp |
 | Western Air Temple | Temple2 |
 | Wild Waterfall | Waterfall |
