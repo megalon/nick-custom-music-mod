@@ -30,12 +30,18 @@ namespace NickCustomMusicMod.Patches
 
 				if (numSongs > 0)
 				{
-					string randomSong = musicDict.Keys.ToArray<string>()[UnityEngine.Random.Range(0, numSongs)];
-					MusicItem musicEntry = musicDict[randomSong];
+					int randInt = UnityEngine.Random.Range(0, numSongs + 1);
 
-					// Intercept the ID and use our custom one
-					Plugin.LogDebug($"Intercepting GetMusic id: {id} and changing to {musicEntry.id}");
-					id = musicEntry.id;
+					if (randInt >= numSongs) {
+						Plugin.LogInfo("Randomly selected default music instead of custom songs!");
+					} else {
+						string randomSong = musicDict.Keys.ToArray<string>()[randInt];
+						MusicItem musicEntry = musicDict[randomSong];
+
+						// Intercept the ID and use our custom one
+						Plugin.LogDebug($"Intercepting GetMusic id: {id} and changing to {musicEntry.id}");
+						id = musicEntry.id;
+					}
 				}
 				else
 				{
