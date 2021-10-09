@@ -32,50 +32,50 @@ BepInEx
             ↳ LoseV1
               ...
         ↳ Stages
-            ↳ Armada
-            ↳ CarnivalLofi
+            ↳ CatDog's House
+            ↳ Glove World
               ...
 ```
 
 Place `.wav`, `.ogg`, or `.mp3` files into the folder corresponding to the stage or menu you want to change.
 
-For example, if you want to use a different song for the Jellyfish Fields stage, place the audio file in `BepInEx\CustomSongs\Stages\SlideHouse`
+For example, if you want to use a different song for the Jellyfish Fields stage, place the audio file in `BepInEx\CustomSongs\Stages\Jellyfish Fields`
 
 If multiple audio files are in the same folder, one is randomly selected each time that stage / menu is loaded!
 
-The folder names correspond to the ingame ID for each stage / menu. Some of them have confusing names! See the list below.
+# Reference
 
-Stages
-```
-Armada --------- Irken Armada Invasion
-CarnivalLofi --- Glove World
-Drome ---------- Technodrom Takedown
-DuoKitchen ----- Powdered Toast Trouble
-DuoMadness ----- Space Madness
-House ---------- CatDog's House
-Loud ----------- The Loud House
-Omashu --------- Omashu
-Playground ----- Showdown at Teeter Totter Gulch
-Rooftop -------- Rooftop Rumble
-SewersCombined - Sewers Slam
-Shanty --------- The Flying Dutchman's Ship
-SlideHouse ----- Jellyfish Fields
-SpiritWorld ---- Harmonic Convergence
-Stomp ---------- Traffic Jam
-Temple2 -------- Western Air Temple
-Trash ---------- The Dump
-Waterfall ------ Wild Waterfall
-YMC ------------ Royal Woods Cemetery
-Zone ----------- Ghost Zone
-```
+Developers may be interested in this reference for the music IDs in game.
 
-Menus
-```
-ArcadeMap ----
-LoseV1 ------- 
-LoseV2 ------- Not sure why there are two of these yet
-MainMenu -----
-OnlineMenu --- The MainMenu music tends to override this
-Versus -------
-Victory ------
-```
+| Stage Name | Stage ID |
+|----------|--------|
+| CatDog's House | House |
+| Ghost Zone | Zone |
+| Glove World | CarnivalLofi |
+| Harmonic Convergence | SpiritWorld |
+| Irken Armada Invasion | Armada |
+| Jellyfish Fields | SlideHouse |
+| Omashu | Omashu |
+| Powdered Toast Trouble | DuoKitchen |
+| Rooftop Rumble | Rooftop |
+| Royal Woods Cemetery | YMC |
+| Sewers Slam | SewersCombined |
+| Showdown at Teeter Totter Gulch | Playground |
+| Space Madness | DuoMadness |
+| Technodrom Takedown | Drome |
+| The Dump | Trash |
+| The Flying Dutchman's Ship | Shanty |
+| The Loud House | Loud |
+| Traffic Jam | Stomp |
+| Western Air Temple | Temple2 |
+| Wild Waterfall | Waterfall |
+
+| Menu Name | Notes |
+|-----------|-------|
+| ArcadeMap | Menu music played when you enter the Arcade mode menu|
+| LoseV1 | |
+| LoseV2 | Not sure why there are two of these yet |
+| MainMenu | Main menu music! |
+| OnlineMenu | The MainMenu music tends to override this |
+| Versus | The "VS" text screen before match starts |
+| Victory | End of match victory screen|
