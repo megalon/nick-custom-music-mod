@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -8,6 +8,7 @@ using BepInEx;
 using Nick;
 using static Nick.MusicMetaData;
 using NickCustomMusicMod.Utils;
+using System.Threading;
 
 namespace NickCustomMusicMod.Management
 {
@@ -26,10 +27,13 @@ namespace NickCustomMusicMod.Management
 				// Create the folder if it doesn't exist
 				Directory.CreateDirectory(rootCustomSongsPath);
 
+				Plugin.LogInfo("Loading songs from subfolders...");
 				// Load songs
 				LoadFromSubDirectories("Stages");
 				LoadFromSubDirectories("Menus");
 
+
+				Plugin.LogInfo("Generating folders if they don't exist...");
 				// Generate folders, incase any don't exist 
 				foreach (string menuID in Consts.MenuIDs)
 				{
@@ -47,18 +51,20 @@ namespace NickCustomMusicMod.Management
 		{
 			var subDirectories = Directory.GetDirectories(Path.Combine(rootCustomSongsPath, parentFolderName));
 
+			Plugin.LogInfo($"Looping through sub directoires in \"{parentFolderName}\"");
+
 			foreach (string directory in subDirectories)
 			{
 				var directoryName = UpdateOldFormatAndGetName(directory);
 
-				Plugin.LogDebug($"directory {directoryName} full path {directory}");
+				Plugin.LogInfo($"directory {directoryName} full path {directory}");
 				LoadSongsFromFolder(parentFolderName, directoryName);
 			}
 		}
 
 		public static void LoadSongsFromFolder(string parentFolderName, string folderName)
 		{
-			Plugin.LogDebug($"LoadSongsFromFolder parentFolderName:{parentFolderName} folderName:{folderName}");
+			Plugin.LogInfo($"LoadSongsFromFolder parentFolderName:{parentFolderName} folderName:{folderName}");
 			
 			string path = Path.Combine(rootCustomSongsPath, parentFolderName, folderName);
 
@@ -94,17 +100,35 @@ namespace NickCustomMusicMod.Management
 
 		public static string UpdateOldFormatAndGetName(string folderPath) {
 			var folderName = Path.GetFileName(folderPath);
-			if (Consts.StageIDs.ContainsValue(folderName)) {
-				string updatedStageName = Consts.StageIDs.FirstOrDefault(x => x.Value == folderPath).Key;
-				string updatedFolderPath = Path.Combine(Directory.GetParent(folderPath).Name, updatedStageName);
+
+			if (Consts.StageIDs.ContainsValue(folderName))
+			{
+				string updatedStageName = "";
+				foreach (string key in Consts.StageIDs.Keys)
+				{
+					if (Consts.StageIDs[key] == folderName) {
+						updatedStageName = key;
+                    }
+				}
+
+				// StageID and display name are the same. EX: Omashu
+				if (folderName.Equals(updatedStageName)) {
+					return updatedStageName;
+                }
+				
+				string updatedFolderPath = Path.Combine(Directory.GetParent(folderPath).FullName, updatedStageName);
 
 				try {
+					Plugin.LogInfo($"Renaming \"{folderName}\" to \"{updatedStageName}\"...");
 					Directory.Move(folderPath, updatedFolderPath);
 					return updatedStageName;
 				} catch (IOException ex){
-					Plugin.LogInfo($"Could not rename directory! Maybe the new directory already exists?");
+					Plugin.LogInfo($"Could not rename directory \"{folderName}\"! Maybe the new directory already exists?");
 					Plugin.LogInfo($"Attempting to copy files from \"{folderName}\" to \"{updatedStageName}\" instead.");
-					CopyFilesAndDeleteOriginalFolder(folderPath, updatedFolderPath);
+					if (CopyFilesAndDeleteOriginalFolder(folderPath, updatedFolderPath))
+					{
+						return updatedStageName;
+					}
 				}
 				catch (Exception ex)
 				{
@@ -122,14 +146,18 @@ namespace NickCustomMusicMod.Management
 				// Copy the files and overwrite destination files if they already exist.
 				foreach (string filePath in files)
 				{
-					fileName = Path.GetFileName(filePath);
-					destPath = Path.Combine(targetDirPath, fileName);
+					string fileName = Path.GetFileName(filePath);
+					string destPath = Path.Combine(targetDirPath, fileName);
+					Plugin.LogInfo($"Copying file \"{fileName}\" to \"{destPath}\"");
 					File.Copy(filePath, destPath, true);
 				}
 
+				Plugin.LogInfo($"Finished copying files. Deleting original folder \"{originalDirPath}\"");
+
 				try {
-					// Delete og folder copying files
+					// Delete og folder after copying files
 					Directory.Delete(originalDirPath, true);
+					Plugin.LogInfo($"Deleted \"{originalDirPath}\"");
 				} catch(Exception ex) {
 					Plugin.LogError($"Failed to delete original folder \"{originalDirPath}\"!");
 					Plugin.LogError($"Exception {ex.Message}");
