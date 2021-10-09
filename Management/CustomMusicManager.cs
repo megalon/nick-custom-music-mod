@@ -22,49 +22,51 @@ namespace NickCustomMusicMod.Management
 
 			rootCustomSongsPath = Path.Combine(Paths.BepInExRootPath, "CustomSongs");
 
-			Task.Run(delegate ()
+			// Create the folder if it doesn't exist
+			Directory.CreateDirectory(rootCustomSongsPath);
+
+			Plugin.LogInfo("Loading songs from subfolders...");
+			// Load songs
+			LoadFromSubDirectories("Stages");
+			LoadFromSubDirectories("Menus");
+
+
+			Plugin.LogInfo("Generating folders if they don't exist...");
+			// Generate folders, incase any don't exist 
+			foreach (string menuID in Consts.MenuIDs)
 			{
-				// Create the folder if it doesn't exist
-				Directory.CreateDirectory(rootCustomSongsPath);
+				Directory.CreateDirectory(Path.Combine(rootCustomSongsPath, "Menus", menuID));
+			}
 
-				Plugin.LogInfo("Loading songs from subfolders...");
-				// Load songs
-				LoadFromSubDirectories("Stages");
-				LoadFromSubDirectories("Menus");
-
-
-				Plugin.LogInfo("Generating folders if they don't exist...");
-				// Generate folders, incase any don't exist 
-				foreach (string menuID in Consts.MenuIDs)
-				{
-					Directory.CreateDirectory(Path.Combine(rootCustomSongsPath, "Menus", menuID));
-				}
-
-				foreach (string stageName in Consts.StageIDs.Keys)
-				{
-					Directory.CreateDirectory(Path.Combine(rootCustomSongsPath, "Stages", stageName));
-				}
-			});
+			foreach (string stageName in Consts.StageIDs.Keys)
+			{
+				Directory.CreateDirectory(Path.Combine(rootCustomSongsPath, "Stages", stageName));
+			}
         }
 
 		public static void LoadFromSubDirectories(string parentFolderName)
 		{
 			var subDirectories = Directory.GetDirectories(Path.Combine(rootCustomSongsPath, parentFolderName));
 
-			Plugin.LogInfo($"Looping through sub directoires in \"{parentFolderName}\"");
+			Plugin.LogInfo($"Looping through sub directories in \"{parentFolderName}\"");
 
+			// Copy files from old folders to new
 			foreach (string directory in subDirectories)
 			{
-				var directoryName = UpdateOldFormatAndGetName(directory);
+				UpdateOldFormat(directory);
+			}
 
-				Plugin.LogInfo($"directory {directoryName} full path {directory}");
-				LoadSongsFromFolder(parentFolderName, directoryName);
+			// Since we may have deleted folders in the previous step, get the list again
+			subDirectories = Directory.GetDirectories(Path.Combine(rootCustomSongsPath, parentFolderName));
+			foreach (string directory in subDirectories)
+			{
+				LoadSongsFromFolder(parentFolderName, directory);
 			}
 		}
 
 		public static void LoadSongsFromFolder(string parentFolderName, string folderName)
 		{
-			Plugin.LogInfo($"LoadSongsFromFolder parentFolderName:{parentFolderName} folderName:{folderName}");
+			Plugin.LogInfo($"LoadSongsFromFolder \"{folderName}\"");
 			
 			string path = Path.Combine(rootCustomSongsPath, parentFolderName, folderName);
 
@@ -98,7 +100,7 @@ namespace NickCustomMusicMod.Management
 			return folderName;
 		}
 
-		public static string UpdateOldFormatAndGetName(string folderPath) {
+		public static void UpdateOldFormat(string folderPath) {
 			var folderName = Path.GetFileName(folderPath);
 
 			if (Consts.StageIDs.ContainsValue(folderName))
@@ -113,7 +115,7 @@ namespace NickCustomMusicMod.Management
 
 				// StageID and display name are the same. EX: Omashu
 				if (folderName.Equals(updatedStageName)) {
-					return updatedStageName;
+					return;
                 }
 				
 				string updatedFolderPath = Path.Combine(Directory.GetParent(folderPath).FullName, updatedStageName);
@@ -121,14 +123,10 @@ namespace NickCustomMusicMod.Management
 				try {
 					Plugin.LogInfo($"Renaming \"{folderName}\" to \"{updatedStageName}\"...");
 					Directory.Move(folderPath, updatedFolderPath);
-					return updatedStageName;
 				} catch (IOException ex){
 					Plugin.LogInfo($"Could not rename directory \"{folderName}\"! Maybe the new directory already exists?");
 					Plugin.LogInfo($"Attempting to copy files from \"{folderName}\" to \"{updatedStageName}\" instead.");
-					if (CopyFilesAndDeleteOriginalFolder(folderPath, updatedFolderPath))
-					{
-						return updatedStageName;
-					}
+					CopyFilesAndDeleteOriginalFolder(folderPath, updatedFolderPath);
 				}
 				catch (Exception ex)
 				{
@@ -136,7 +134,6 @@ namespace NickCustomMusicMod.Management
 					Plugin.LogError($"Exception {ex.Message}");
 				}
 			}
-			return folderName;
 		}
 
 		public static bool CopyFilesAndDeleteOriginalFolder(string originalDirPath, string targetDirPath) {
