@@ -60,7 +60,9 @@ namespace NickCustomMusicMod.Management
 			subDirectories = Directory.GetDirectories(Path.Combine(rootCustomSongsPath, parentFolderName));
 			foreach (string directory in subDirectories)
 			{
-				LoadSongsFromFolder(parentFolderName, directory);
+				var folderName = new DirectoryInfo(directory).Name;
+
+				LoadSongsFromFolder(parentFolderName, folderName);
 			}
 		}
 
