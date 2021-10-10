@@ -20,6 +20,7 @@ namespace NickCustomMusicMod.Patches
     {
         static bool Prefix(ref string id)
 		{
+			var config = Plugin.Instance.Config;
 			Plugin.previousMusicID = id;
 
 			// Get a random song for this stage / menu
@@ -30,7 +31,7 @@ namespace NickCustomMusicMod.Patches
 
 				if (numSongs > 0)
 				{
-					int randInt = UnityEngine.Random.Range(0, numSongs + 1);
+					int randInt = UnityEngine.Random.Range(0, numSongs + (Plugin.Instance.useDefaultSongs.Value ? 1 : 0));
 
 					if (randInt >= numSongs) {
 						Plugin.LogInfo("Randomly selected default music instead of custom songs!");
