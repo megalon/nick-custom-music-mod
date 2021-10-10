@@ -23,7 +23,17 @@ This will place the dll in `BepInEx\plugins\`, and then create the `BepInEx\Cust
 
 ## Usage
 
-Folder structure
+### Config file
+
+**Run the game once with the mod installed to generate the config file `BepInEx\config\megalon.nick_custom_music_mod.cfg`**.
+
+Simply edit this file in a text editor, and save it, then launch the game again.
+
+| Setting | Possible Values | Description |
+|-----|-----|-----|
+| Use Default Songs | `true` / `false` | `true` will include the built-in songs when the mod is randomly selecting a song to play. |
+
+### Folder structure
 ```
 BepInEx
     ↳ CustomSongs
@@ -32,7 +42,7 @@ BepInEx
             ↳ LoseV1
               ...
         ↳ Stages
-            ↳ CatDog's House
+            ↳ CatDogs House
             ↳ Glove World
               ...
 ```
