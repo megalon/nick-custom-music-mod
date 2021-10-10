@@ -31,7 +31,7 @@ Simply edit this file in a text editor, and save it, then launch the game again.
 
 | Setting | Possible Values | Description |
 |-----|-----|-----|
-| Use Default Songs | `true` / `false` | `true` will include the built-in songs when the mod is randomly selecting a song to play. |
+| Use Default Songs | `true` or `false` | `true` will include the built-in songs when the mod is randomly selecting a song to play. |
 
 ### Folder structure
 ```
