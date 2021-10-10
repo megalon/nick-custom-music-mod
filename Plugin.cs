@@ -4,6 +4,7 @@ using HarmonyLib;
 using System;
 using System.Reflection;
 using NickCustomMusicMod.Management;
+using BepInEx.Configuration;
 
 namespace NickCustomMusicMod
 {
@@ -12,6 +13,7 @@ namespace NickCustomMusicMod
     {
         internal static Plugin Instance;
         internal static string previousMusicID;
+        internal ConfigEntry<bool> useDefaultSongs;
         private void Awake()
         {
             Logger.LogDebug($"Plugin {PluginInfo.PLUGIN_NAME} is loaded!");
@@ -25,10 +27,20 @@ namespace NickCustomMusicMod
 
             var config = this.Config;
 
+            useDefaultSongs = Config.Bind<bool>("Options", "Use Default Songs", false);
+
+            config.SettingChanged += OnConfigSettingChanged;
+
             // Harmony patches
             Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly());
 
             CustomMusicManager.Init();
+        }
+
+        static void OnConfigSettingChanged(object sender, EventArgs args)
+        {
+            LogDebug($"{PluginInfo.PLUGIN_NAME} OnConfigSettingChanged");
+            Plugin.Instance?.Config?.Reload();
         }
 
         internal static void LogDebug(string message) => Instance.Log(message, LogLevel.Debug);
