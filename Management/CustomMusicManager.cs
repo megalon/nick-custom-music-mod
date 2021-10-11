@@ -48,11 +48,6 @@ namespace NickCustomMusicMod.Management
 			{
 				Directory.CreateDirectory(Path.Combine(rootCustomSongsPath, Consts.victoryThemesFolderName, characterName));
 			}
-
-			foreach(var key in songDictionaries.Keys)
-            {
-				Plugin.LogInfo(key);
-            }
 		}
 
 		public static void LoadFromSubDirectories(string parentFolderName)
