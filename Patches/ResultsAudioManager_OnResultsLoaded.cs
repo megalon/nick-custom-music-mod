@@ -57,8 +57,10 @@ namespace NickCustomMusicMod.Patches
             var winner = results.players.Where(x => x.active && x.place == 1).FirstOrDefault().characterId;
             var winnerKey = $"{Consts.victoryThemesFolderName}_{winner}";
 
-            if (CustomMusicManager.songDictionaries.ContainsKey(winnerKey))
+            if (CustomMusicManager.songDictionaries.TryGetValue(winnerKey, out var dict) && dict.Keys.Count > 0)
                 musicChanger.StartMusic(winnerKey);
+            else
+                musicChanger.StartMusic("Victory");
         }
     }
 }
