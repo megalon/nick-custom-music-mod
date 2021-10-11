@@ -27,25 +27,38 @@ namespace NickCustomMusicMod.Management
 
 			Plugin.LogInfo("Loading songs from subfolders...");
 			// Load songs
-			LoadFromSubDirectories("Stages");
-			LoadFromSubDirectories("Menus");
+			LoadFromSubDirectories(Consts.stagesFolderName);
+			LoadFromSubDirectories(Consts.menusFolderName);
+			LoadFromSubDirectories(Consts.victoryThemesFolderName);
 
 
 			Plugin.LogInfo("Generating folders if they don't exist...");
 			// Generate folders, incase any don't exist 
 			foreach (string menuID in Consts.MenuIDs)
 			{
-				Directory.CreateDirectory(Path.Combine(rootCustomSongsPath, "Menus", menuID));
+				Directory.CreateDirectory(Path.Combine(rootCustomSongsPath, Consts.menusFolderName, menuID));
 			}
 
 			foreach (string stageName in Consts.StageIDs.Keys)
 			{
-				Directory.CreateDirectory(Path.Combine(rootCustomSongsPath, "Stages", stageName));
+				Directory.CreateDirectory(Path.Combine(rootCustomSongsPath, Consts.stagesFolderName, stageName));
 			}
-        }
+
+			foreach (string characterName in Consts.CharacterIDs.Keys)
+			{
+				Directory.CreateDirectory(Path.Combine(rootCustomSongsPath, Consts.victoryThemesFolderName, characterName));
+			}
+
+			foreach(var key in songDictionaries.Keys)
+            {
+				Plugin.LogInfo(key);
+            }
+		}
 
 		public static void LoadFromSubDirectories(string parentFolderName)
 		{
+			if (!Directory.Exists(Path.Combine(rootCustomSongsPath, parentFolderName))) return;
+
 			var subDirectories = Directory.GetDirectories(Path.Combine(rootCustomSongsPath, parentFolderName));
 
 			Plugin.LogInfo($"Looping through sub directories in \"{parentFolderName}\"");
@@ -92,13 +105,24 @@ namespace NickCustomMusicMod.Management
 				musicItemDict.Add(music.id, music);
 			}
 
-			songDictionaries.Add(TranslateFolderNameToID(folderName), musicItemDict);
+			string prefix;
+
+			if (parentFolderName == Consts.stagesFolderName || parentFolderName == Consts.menusFolderName)
+				prefix = String.Empty;
+			else
+				prefix = $"{parentFolderName}_";
+
+			songDictionaries.Add(prefix + TranslateFolderNameToID(folderName), musicItemDict);
 		}
 
 		public static string TranslateFolderNameToID(string folderName) {
-			if (Consts.StageIDs.ContainsKey(folderName)) {
+			if (Consts.StageIDs.ContainsKey(folderName))
+			{
 				return Consts.StageIDs[folderName];
-			}
+			} else if (Consts.CharacterIDs.ContainsKey(folderName))
+            {
+				return Consts.CharacterIDs[folderName];
+            }
 			return folderName;
 		}
 

@@ -29,7 +29,7 @@ namespace NickCustomMusicMod.Patches
 				Plugin.LogDebug($"Plugin.previousMusicID: {Plugin.previousMusicID}");
 				if (newMusicId.Equals("MainMenu") && Plugin.previousMusicID.Equals("MainMenu"))
 				{
-					Plugin.LogDebug($"previousMusicID was {Plugin.previousMusicID}! Not skipping StartMusic");
+					Plugin.LogDebug($"previousMusicID was {Plugin.previousMusicID}! Skipping StartMusic");
 					return false;
 				}
 			}
