@@ -101,8 +101,10 @@ namespace NickCustomMusicMod.Patches
 					yield break;
 			}
 
-			UnityWebRequest audioLoader = UnityWebRequestMultimedia.GetAudioClip(entry.resLocation, audioType);
-			yield return audioLoader.SendWebRequest();
+            UnityWebRequest audioLoader = UnityWebRequestMultimedia.GetAudioClip(entry.resLocation, audioType);
+			// this stops the lag!
+            (audioLoader.downloadHandler as DownloadHandlerAudioClip).streamAudio = true;
+            yield return audioLoader.SendWebRequest();
 			if (audioLoader.error != null)
 			{
 				Debug.LogError(audioLoader.error);
