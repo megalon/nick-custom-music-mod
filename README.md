@@ -1,18 +1,15 @@
 # NASB Custom Music Mod
 
 This mod allows you to add custom songs to each stage and menu in the game!
-
-# > "My .mp3 didn't work!"
-I've had multiple people unable to load certain mp3 files.
-
-If you've downloaded a file from a youtube downloader, such as `ytmp3.cc`, your file might actually be an `.m4a` disguised as a `.mp3`
-
-Unity cannot load these (it seems).
-
-Use a different converter, or convert to `.ogg` instead! Thanks.
-
+_____
 
 ## Installation
+
+### Slime Mod Manager
+
+Download the latest version of this mod from the [Slime Mod Manager](https://github.com/legoandmars/SlimeModManager/releases/latest)!
+
+### Manually
 
 *If your game isn't modded with BepinEx, DO THAT FIRST!*
 Simply go to the [latest BepinEx release](https://github.com/BepInEx/BepInEx/releases) and extract `BepinEx_x64_VERSION.zip` directly into your game's folder, then run the game once to install BepinEx properly.
@@ -45,6 +42,10 @@ BepInEx
             ↳ CatDogs House
             ↳ Glove World
               ...
+        ↳ Victory Themes
+            ↳ Aang
+            ↳ April
+              ...
 ```
 
 Place `.wav`, `.ogg`, or `.mp3` files into the folder corresponding to the stage or menu you want to change.
@@ -52,6 +53,25 @@ Place `.wav`, `.ogg`, or `.mp3` files into the folder corresponding to the stage
 For example, if you want to use a different song for the Jellyfish Fields stage, place the audio file in `BepInEx\CustomSongs\Stages\Jellyfish Fields`
 
 If multiple audio files are in the same folder, one is randomly selected each time that stage / menu is loaded!
+
+# FAQ
+
+## "My .mp3 didn't work!"
+I've had multiple people unable to load certain mp3 files.
+
+If you've downloaded a file from a youtube downloader, such as `ytmp3.cc`, your file might actually be an `.m4a` disguised as a `.mp3`
+
+Unity cannot load these (it seems).
+
+Use a different converter, or convert to `.ogg` instead! Thanks.
+
+## "What happens if I have multiple songs in the same folder?"
+
+The mod will randomly select a song to play each time that stage / menu / victory is loaded.
+
+## "Can I include the default songs in the random selection?"
+
+Yes. You must enable the option in the config file. See "Config File" above.
 
 # Reference
 

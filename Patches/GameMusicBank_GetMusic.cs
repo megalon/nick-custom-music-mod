@@ -83,7 +83,7 @@ namespace NickCustomMusicMod.Patches
 
 		public static IEnumerator LoadCustomSong(MusicItem entry)
 		{
-			GameMusic music = new GameMusic();
+			GameMusic music = ScriptableObject.CreateInstance<GameMusic>();
 			AudioType audioType = AudioType.UNKNOWN;
 
 			switch (Path.GetExtension(entry.resLocation).ToLower())
