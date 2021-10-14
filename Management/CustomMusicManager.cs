@@ -100,10 +100,10 @@ namespace NickCustomMusicMod.Management
                 // Files with a .txt extension will be redirected to the Music Bank folder to find music of the same name, with a naming convention of example.ogg.txt
                 if (Path.GetExtension(text) == ".txt") {
                     music.resLocation = Path.Combine(rootCustomSongsPath, Consts.musicBankFolderName, fileNameWithoutExtension).ToString();
-                    if (File.Exists(music.resLocation)) {
+                    if (File.Exists(music.resLocation)) 
                         musicItemDict.Add(music.id, music);
-                        continue;
-                    }
+                    // As to not double up and not add non existent files
+                    continue;
                 }
 
 				musicItemDict.Add(music.id, music);
