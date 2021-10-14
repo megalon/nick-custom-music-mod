@@ -48,6 +48,8 @@ namespace NickCustomMusicMod.Management
 			{
 				Directory.CreateDirectory(Path.Combine(rootCustomSongsPath, Consts.victoryThemesFolderName, characterName));
 			}
+
+            Directory.CreateDirectory(Path.Combine(rootCustomSongsPath, Consts.musicBankFolderName));
 		}
 
 		public static void LoadFromSubDirectories(string parentFolderName)
@@ -83,19 +85,26 @@ namespace NickCustomMusicMod.Management
 			Dictionary<string, MusicItem> musicItemDict = new Dictionary<string, MusicItem>();
 
 			foreach (string text in from x in Directory.GetFiles(path)
-				where x.ToLower().EndsWith(".ogg") || x.ToLower().EndsWith(".wav") || x.ToLower().EndsWith(".mp3")
+				where x.ToLower().EndsWith(".ogg") || x.ToLower().EndsWith(".wav") || x.ToLower().EndsWith(".mp3") || x.ToLower().EndsWith(".txt")
 				select x)
 				{
 				string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(text);
 
 				Plugin.LogInfo($"Found custom song: {parentFolderName}\\{folderName}\\{Path.GetFileName(text)}");
 
-				MusicItem music = new MusicItem
-				{
-					id = "CUSTOM_" + fileNameWithoutExtension,
-					originalName = fileNameWithoutExtension,
-					resLocation = text,
-				};
+                MusicItem music = new MusicItem {
+                    id = "CUSTOM_" + fileNameWithoutExtension,
+                    originalName = fileNameWithoutExtension,
+                    resLocation = text,
+                };
+                // Files with a .txt extension will be redirected to the Music Bank folder to find music of the same name, with a naming convention of example.ogg.txt
+                if (Path.GetExtension(text) == ".txt") {
+                    music.resLocation = Path.Combine(rootCustomSongsPath, Consts.musicBankFolderName, fileNameWithoutExtension).ToString();
+                    if (File.Exists(music.resLocation)) {
+                        musicItemDict.Add(music.id, music);
+                        continue;
+                    }
+                }
 
 				musicItemDict.Add(music.id, music);
 			}
