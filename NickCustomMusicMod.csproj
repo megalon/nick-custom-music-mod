@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="xcopy &quot;$(ProjectDir)$(OutDir)$(TargetFileName)&quot; &quot;C:\Program Files\Steam\steamapps\common\Nickelodeon All-Star Brawl\BepInEx\plugins&quot; /Y" />
+    <Exec Command="xcopy &quot;$(ProjectDir)$(OutDir)$(TargetFileName)&quot; &quot;$(GameDir)\BepInEx\plugins&quot; /Y" />
   </Target>
 
   <ItemGroup>
