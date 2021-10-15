@@ -78,7 +78,11 @@ Yes. You must enable the option in the config file. See "Config File" above.
 
 ## 🔧 Developing
 
-Clone the project, then set the `GameDir` property in `NickCustomMusicMod.csproj.user`
+Clone the project, then create a file in the root of the project directory named:
+
+`NickCustomMusicMod.csproj.user`
+
+Here you need to set the `GameDir` property to match your install directory.
 
 Example:
 ```xml
@@ -89,6 +93,10 @@ Example:
   </PropertyGroup>
 </Project>
 ```
+
+Now when you build the mod, it should resolve your references automatically, and the build event will copy the plugin into your `BepInEx\plugins` folder!
+
+### Notes
 
 Developers may be interested in this reference for the music IDs in game.
 
