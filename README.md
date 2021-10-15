@@ -3,7 +3,7 @@
 This mod allows you to add custom songs to each stage and menu in the game!
 _____
 
-# 🚀 Installation
+## 🚀 Installation
 
 ### Slime Mod Manager
 
@@ -18,7 +18,7 @@ Next, go to the [latest release of this mod](https://github.com/megalon/NickCust
 
 This will place the dll in `BepInEx\plugins\`, and then create the `BepInEx\CustomSongs\*` folder structure.
 
-# ℹ Usage
+## ℹ Usage
 
 ### Folder structure
 ```
@@ -44,7 +44,7 @@ For example, if you want to use a different song for the Jellyfish Fields stage,
 
 If multiple audio files are in the same folder, one is randomly selected each time that stage / menu is loaded!
 
-# 📝 Configuration
+## 📝 Configuration
 
 **Run the game once with the mod installed to generate the config file:**
 
@@ -57,9 +57,9 @@ Simply edit this file in a text editor, and save it, then launch the game again.
 | `Use Default Songs` | `true` or `false` | `true` will include the built-in songs when the mod is randomly selecting a song to play. |
 
 
-# ❔ FAQ
+## ❔ FAQ
 
-## "My .mp3 didn't work!"
+### "My .mp3 didn't work!"
 I've had multiple people unable to load certain mp3 files.
 
 If you've downloaded a file from a youtube downloader, such as `ytmp3.cc`, your file might actually be an `.m4a` disguised as a `.mp3`
@@ -68,15 +68,15 @@ Unity cannot load these (it seems).
 
 Use a different converter, or convert to `.ogg` instead! Thanks.
 
-## "What happens if I have multiple songs in the same folder?"
+### "What happens if I have multiple songs in the same folder?"
 
 The mod will randomly select a song to play each time that stage / menu / victory is loaded.
 
-## "Can I include the default songs in the random selection?"
+### "Can I include the default songs in the random selection?"
 
 Yes. You must enable the option in the config file. See "Config File" above.
 
-# 🔧 Developing
+## 🔧 Developing
 
 Clone the project, then set the `GameDir` property in `NickCustomMusicMod.csproj.user`
 
