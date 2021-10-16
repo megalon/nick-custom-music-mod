@@ -114,33 +114,7 @@ namespace NickCustomMusicMod.Patches
 			}
 			music.clip = DownloadHandlerAudioClip.GetContent(audioLoader);
 
-			// Get loop points from json file here
-			string jsonPath = Path.Combine(Path.GetDirectoryName(entry.resLocation), Path.GetFileNameWithoutExtension(entry.resLocation) + ".json");
-			if (File.Exists(jsonPath))
-            {
-				string jsonFile = File.ReadAllText(jsonPath);
-
-				try
-                {
-					var customMusicData = JsonConvert.DeserializeObject<CustomMusicData>(jsonFile);
-
-					Plugin.LogDebug($"customMusicData: {customMusicData.loopStartTimeSec}, {customMusicData.loopEndTimeSec}");
-					if (customMusicData.loopStartTimeSec == 0 || customMusicData.loopEndTimeSec == 0)
-					{
-						Plugin.LogWarning($"\"loopStartTimeSec\" or \"loopEndTimeSec\" is 0 for json file \"{jsonPath}\"! They might not be in the file, or are misspelled!");
-                    }
-
-					music.loopWhere = customMusicData.loopStartTimeSec;
-					music.loopTime = customMusicData.loopEndTimeSec;
-				} catch (Exception e)
-                {
-					Plugin.LogError($"Error reading json data for {jsonPath}");
-					Plugin.LogError(e.Message);
-                }
-			} else
-            {
-				Plugin.LogInfo($"No json file found for {Path.GetFileName(entry.resLocation)}");
-            }
+			HandleCustomMusicData(entry, music);
 
 			GameMusicSystem gmsInstance;
 			if (GameMusicSystem.TryGetInstance(out gmsInstance)) {
@@ -149,5 +123,54 @@ namespace NickCustomMusicMod.Patches
 
 			yield break;
 		}
+
+		private static void HandleCustomMusicData(MusicItem entry, GameMusic music)
+        {
+			// Get loop points from json file here
+			string jsonPath = Path.Combine(Path.GetDirectoryName(entry.resLocation), Path.GetFileNameWithoutExtension(entry.resLocation) + ".json");
+			if (File.Exists(jsonPath))
+			{
+				string jsonFile = File.ReadAllText(jsonPath);
+
+				try
+				{
+					var customMusicData = JsonConvert.DeserializeObject<CustomMusicData>(jsonFile);
+
+					Plugin.LogDebug($"customMusicData: {customMusicData.loopStartTimeSec}, {customMusicData.loopEndTimeSec}");
+					if (customMusicData.loopStartTimeSec == 0)
+					{
+						Plugin.LogWarning($"\"loopStartTimeSec\" is 0 for json file \"{jsonPath}\"! It might not be in the file, or is misspelled!");
+					}
+
+					if (customMusicData.loopEndTimeSec == 0)
+					{
+						Plugin.LogWarning($"\"loopEndTimeSec\" is 0 for json file \"{jsonPath}\"! It might not be in the file, or is misspelled!");
+					}
+
+					if (customMusicData.loopEndTimeSec == 0 && customMusicData.loopStartTimeSec > 0)
+					{
+						Plugin.LogWarning($"\"loopStartTimeSec\" is greater than 0, but \"loopEndTimeSec\" is 0! Setting \"loopEndTimeSec\" to length of song for \"{jsonPath}\"");
+						customMusicData.loopEndTimeSec = music.clip.length;
+					}
+
+					if (customMusicData.loopEndTimeSec > 0 && customMusicData.loopStartTimeSec > 0 && customMusicData.loopStartTimeSec == customMusicData.loopEndTimeSec)
+					{
+						Plugin.LogWarning($"\"loopStartTimeSec\" and \"loopEndTimeSec\" are the same value for \"{jsonPath}\"! Did you mean to do that?");
+					}
+
+					music.loopWhere = customMusicData.loopStartTimeSec;
+					music.loopTime = customMusicData.loopEndTimeSec;
+				}
+				catch (Exception e)
+				{
+					Plugin.LogError($"Error reading json data for {jsonPath}");
+					Plugin.LogError(e.Message);
+				}
+			}
+			else
+			{
+				Plugin.LogInfo($"No json file found for {Path.GetFileName(entry.resLocation)}");
+			}
+		} 
 	}
 }
