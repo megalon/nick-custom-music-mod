@@ -25,6 +25,9 @@
     <Reference Include="BepInEx">
       <HintPath>$(GameDir)\BepInEx\core\BepInEx.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>$(GameDir)\BepInEx\core\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine">
       <HintPath>$(GameDir)\Nickelodeon All-Star Brawl_Data\Managed\UnityEngine.dll</HintPath>
     </Reference>

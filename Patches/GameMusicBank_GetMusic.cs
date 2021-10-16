@@ -12,6 +12,8 @@ using NickCustomMusicMod;
 using NickCustomMusicMod.Utils;
 using NickCustomMusicMod.Management;
 using System.Linq;
+using Newtonsoft.Json;
+using NickCustomMusicMod.Data;
 
 namespace NickCustomMusicMod.Patches
 {
@@ -111,6 +113,35 @@ namespace NickCustomMusicMod.Patches
 				yield break;
 			}
 			music.clip = DownloadHandlerAudioClip.GetContent(audioLoader);
+
+			// Get loop points from json file here
+			string jsonPath = Path.Combine(Path.GetDirectoryName(entry.resLocation), Path.GetFileNameWithoutExtension(entry.resLocation) + ".json");
+			if (File.Exists(jsonPath))
+            {
+				string jsonFile = File.ReadAllText(jsonPath);
+
+				try
+                {
+					var customMusicData = JsonConvert.DeserializeObject<CustomMusicData>(jsonFile);
+
+					Plugin.LogDebug($"customMusicData: {customMusicData.loopStartTimeSec}, {customMusicData.loopEndTimeSec}");
+					if (customMusicData.loopStartTimeSec == 0 || customMusicData.loopEndTimeSec == 0)
+					{
+						Plugin.LogWarning($"\"loopStartTimeSec\" or \"loopEndTimeSec\" is 0 for json file \"{jsonPath}\"! They might not be in the file, or are misspelled!");
+                    }
+
+					music.loopWhere = customMusicData.loopStartTimeSec;
+					music.loopTime = customMusicData.loopEndTimeSec;
+				} catch (Exception e)
+                {
+					Plugin.LogError($"Error reading json data for {jsonPath}");
+					Plugin.LogError(e.Message);
+                }
+			} else
+            {
+				Plugin.LogInfo($"No json file found for {Path.GetFileName(entry.resLocation)}");
+            }
+
 			GameMusicSystem gmsInstance;
 			if (GameMusicSystem.TryGetInstance(out gmsInstance)) {
 				gmsInstance.InvokeMethod("play", entry.id, music);
