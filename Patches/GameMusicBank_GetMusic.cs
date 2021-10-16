@@ -130,11 +130,14 @@ namespace NickCustomMusicMod.Patches
 			string jsonPath = Path.Combine(Path.GetDirectoryName(entry.resLocation), Path.GetFileNameWithoutExtension(entry.resLocation) + ".json");
 			if (File.Exists(jsonPath))
 			{
-				string jsonFile = File.ReadAllText(jsonPath);
-
 				try
 				{
+					string jsonFile = File.ReadAllText(jsonPath);
+
 					var customMusicData = JsonConvert.DeserializeObject<CustomMusicData>(jsonFile);
+
+					customMusicData.loopStartTimeSec = Mathf.Clamp(customMusicData.loopStartTimeSec, 0, music.clip.length);
+					customMusicData.loopEndTimeSec   = Mathf.Clamp(customMusicData.loopEndTimeSec, 0, music.clip.length);
 
 					Plugin.LogDebug($"customMusicData: {customMusicData.loopStartTimeSec}, {customMusicData.loopEndTimeSec}");
 					if (customMusicData.loopStartTimeSec == 0)
