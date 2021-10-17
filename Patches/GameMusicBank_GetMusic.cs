@@ -139,30 +139,7 @@ namespace NickCustomMusicMod.Patches
 					customMusicData.loopStartPointSec = Mathf.Clamp(customMusicData.loopStartPointSec, 0, music.clip.length);
 					customMusicData.loopEndPointSec   = Mathf.Clamp(customMusicData.loopEndPointSec, 0, music.clip.length);
 
-					Plugin.LogDebug($"customMusicData: {customMusicData.loopStartPointSec}, {customMusicData.loopEndPointSec}");
-					if (customMusicData.loopStartPointSec == 0)
-					{
-						Plugin.LogWarning($"\"loopStartPointSec\" is 0 for json file \"{jsonPath}\"! It might not be in the file, or is misspelled!");
-					}
-
-					if (customMusicData.loopEndPointSec == 0)
-					{
-						Plugin.LogWarning($"\"loopEndPointSec\" is 0 for json file \"{jsonPath}\"! It might not be in the file, or is misspelled!");
-					}
-
-					if (customMusicData.loopEndPointSec == 0 && customMusicData.loopStartPointSec > 0)
-					{
-						Plugin.LogWarning($"\"loopStartPointSec\" is greater than 0, but \"loopEndPointSec\" is 0! Setting \"loopEndPointSec\" to length of song for \"{jsonPath}\"");
-						customMusicData.loopEndPointSec = music.clip.length;
-					}
-
-					if (customMusicData.loopEndPointSec > 0 && customMusicData.loopStartPointSec > 0 && customMusicData.loopStartPointSec == customMusicData.loopEndPointSec)
-					{
-						Plugin.LogWarning($"\"loopStartPointSec\" and \"loopEndPointSec\" are the same value for \"{jsonPath}\"! Did you mean to do that?");
-					}
-
-					music.loopWhere = customMusicData.loopStartPointSec;
-					music.loopTime = customMusicData.loopEndPointSec;
+					HandleLoopPointsSec(customMusicData, music, jsonPath);
 				}
 				catch (Exception e)
 				{
@@ -174,6 +151,34 @@ namespace NickCustomMusicMod.Patches
 			{
 				Plugin.LogInfo($"No json file found for {Path.GetFileName(entry.resLocation)}");
 			}
-		} 
+		}
+
+		private static void HandleLoopPointsSec(CustomMusicData customMusicData, GameMusic music, string jsonPath)
+        {
+			Plugin.LogDebug($"customMusicData: {customMusicData.loopStartPointSec}, {customMusicData.loopEndPointSec}");
+			if (customMusicData.loopStartPointSec == 0)
+			{
+				Plugin.LogWarning($"\"loopStartPointSec\" is 0 for json file \"{jsonPath}\"! It might not be in the file, or is misspelled!");
+			}
+
+			if (customMusicData.loopEndPointSec == 0)
+			{
+				Plugin.LogWarning($"\"loopEndPointSec\" is 0 for json file \"{jsonPath}\"! It might not be in the file, or is misspelled!");
+			}
+
+			if (customMusicData.loopEndPointSec == 0 && customMusicData.loopStartPointSec > 0)
+			{
+				Plugin.LogWarning($"\"loopStartPointSec\" is greater than 0, but \"loopEndPointSec\" is 0! Setting \"loopEndPointSec\" to length of song for \"{jsonPath}\"");
+				customMusicData.loopEndPointSec = music.clip.length;
+			}
+
+			if (customMusicData.loopEndPointSec > 0 && customMusicData.loopStartPointSec > 0 && customMusicData.loopStartPointSec == customMusicData.loopEndPointSec)
+			{
+				Plugin.LogWarning($"\"loopStartPointSec\" and \"loopEndPointSec\" are the same value for \"{jsonPath}\"! Did you mean to do that?");
+			}
+
+			music.loopWhere = customMusicData.loopStartPointSec;
+			music.loopTime = customMusicData.loopEndPointSec;
+		}
 	}
 }
