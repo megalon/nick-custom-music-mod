@@ -9,15 +9,6 @@ _____
 
 Download the latest version of this mod from the [Slime Mod Manager](https://github.com/legoandmars/SlimeModManager/releases/latest)!
 
-### Manually
-
-*If your game isn't modded with BepinEx, DO THAT FIRST!*
-Simply go to the [latest BepinEx release](https://github.com/BepInEx/BepInEx/releases) and extract `BepinEx_x64_VERSION.zip` directly into your game's folder, then run the game once to install BepinEx properly.
-
-Next, go to the [latest release of this mod](https://github.com/megalon/NickCustomMusicMod/releases/latest) and extract the zip in your game's install directory.
-
-This will place the dll in `BepInEx\plugins\`, and then create the `BepInEx\CustomSongs\*` folder structure.
-
 ## ℹ Usage
 
 ### Folder structure
@@ -44,18 +35,43 @@ For example, if you want to use a different song for the Jellyfish Fields stage,
 
 If multiple audio files are in the same folder, one is randomly selected each time that stage / menu is loaded!
 
+### Loop points *(optional)*
+
+To define a loop start and end point, create a JSON file in the same folder as your audio file, and give it the same name as your audio file.
+
+File structure example
+```
+Stages
+    ↳ Jellyfish Fields
+        ↳ Song1.wav
+        ↳ Song1.json
+```
+
+JSON file contents
+```json
+{
+  "loopStartPointSec": "16.109",
+  "loopEndPointSec": "62.215"
+}
+```
+
+When `62.215` seconds have elapsed in the song, it will loop back to `16.109` seconds!
+
+To find loop points in your song, you can use some free audio software like [Audacity](https://www.audacityteam.org/).
+
+I would recommend using a DAW with more precise BPM / looping support, such as Reaper, Ableton Live, FL Studio, etc.
+
 ## 📝 Configuration
 
 **Run the game once with the mod installed to generate the config file:**
 
 `BepInEx\config\megalon.nick_custom_music_mod.cfg`
 
-Simply edit this file in a text editor, and save it, then launch the game again.
-
 | Setting | Possible Values | Description |
 |-----|-----|-----|
 | `Use Default Songs` | `true` or `false` | `true` will include the built-in songs when the mod is randomly selecting a song to play. |
 
+Simply edit this file in a text editor, and save it, then launch the game again.
 
 ## ❔ FAQ
 
@@ -74,9 +90,15 @@ The mod will randomly select a song to play each time that stage / menu / victor
 
 ### "Can I include the default songs in the random selection?"
 
-Yes. You must enable the option in the config file. See "Config File" above.
+Yes. You must enable the option in the config file. See *Configuration* above.
 
 ## 🔧 Developing
+
+As of **v1.3.x**, this project requires `Newtonsoft.Json.dll`! 
+
+You can install it with `JsonDotNet` via [Slime Mod Manager](https://github.com/legoandmars/slimemodmanager/releases/latest)
+
+### Setup
 
 Clone the project, then create a file in the root of the project directory named:
 
