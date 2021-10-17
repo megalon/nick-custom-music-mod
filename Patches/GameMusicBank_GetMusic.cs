@@ -12,6 +12,8 @@ using NickCustomMusicMod;
 using NickCustomMusicMod.Utils;
 using NickCustomMusicMod.Management;
 using System.Linq;
+using Newtonsoft.Json;
+using NickCustomMusicMod.Data;
 
 namespace NickCustomMusicMod.Patches
 {
@@ -111,6 +113,9 @@ namespace NickCustomMusicMod.Patches
 				yield break;
 			}
 			music.clip = DownloadHandlerAudioClip.GetContent(audioLoader);
+
+			HandleCustomMusicData(entry, music);
+
 			GameMusicSystem gmsInstance;
 			if (GameMusicSystem.TryGetInstance(out gmsInstance)) {
 				gmsInstance.InvokeMethod("play", entry.id, music);
@@ -118,5 +123,57 @@ namespace NickCustomMusicMod.Patches
 
 			yield break;
 		}
+
+		private static void HandleCustomMusicData(MusicItem entry, GameMusic music)
+        {
+			// Get loop points from json file here
+			string jsonPath = Path.Combine(Path.GetDirectoryName(entry.resLocation), Path.GetFileNameWithoutExtension(entry.resLocation) + ".json");
+			if (File.Exists(jsonPath))
+			{
+				try
+				{
+					string jsonFile = File.ReadAllText(jsonPath);
+
+					var customMusicData = JsonConvert.DeserializeObject<CustomMusicData>(jsonFile);
+
+					customMusicData.loopStartPointSec = Mathf.Clamp(customMusicData.loopStartPointSec, 0, music.clip.length);
+					customMusicData.loopEndPointSec   = Mathf.Clamp(customMusicData.loopEndPointSec, 0, music.clip.length);
+
+					Plugin.LogDebug($"customMusicData: {customMusicData.loopStartPointSec}, {customMusicData.loopEndPointSec}");
+					if (customMusicData.loopStartPointSec == 0)
+					{
+						Plugin.LogWarning($"\"loopStartPointSec\" is 0 for json file \"{jsonPath}\"! It might not be in the file, or is misspelled!");
+					}
+
+					if (customMusicData.loopEndPointSec == 0)
+					{
+						Plugin.LogWarning($"\"loopEndPointSec\" is 0 for json file \"{jsonPath}\"! It might not be in the file, or is misspelled!");
+					}
+
+					if (customMusicData.loopEndPointSec == 0 && customMusicData.loopStartPointSec > 0)
+					{
+						Plugin.LogWarning($"\"loopStartPointSec\" is greater than 0, but \"loopEndPointSec\" is 0! Setting \"loopEndPointSec\" to length of song for \"{jsonPath}\"");
+						customMusicData.loopEndPointSec = music.clip.length;
+					}
+
+					if (customMusicData.loopEndPointSec > 0 && customMusicData.loopStartPointSec > 0 && customMusicData.loopStartPointSec == customMusicData.loopEndPointSec)
+					{
+						Plugin.LogWarning($"\"loopStartPointSec\" and \"loopEndPointSec\" are the same value for \"{jsonPath}\"! Did you mean to do that?");
+					}
+
+					music.loopWhere = customMusicData.loopStartPointSec;
+					music.loopTime = customMusicData.loopEndPointSec;
+				}
+				catch (Exception e)
+				{
+					Plugin.LogError($"Error reading json data for {jsonPath}");
+					Plugin.LogError(e.Message);
+				}
+			}
+			else
+			{
+				Plugin.LogInfo($"No json file found for {Path.GetFileName(entry.resLocation)}");
+			}
+		} 
 	}
 }

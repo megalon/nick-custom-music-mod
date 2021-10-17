@@ -45,6 +45,7 @@ namespace NickCustomMusicMod
 
         internal static void LogDebug(string message) => Instance.Log(message, LogLevel.Debug);
         internal static void LogInfo(string message) => Instance.Log(message, LogLevel.Info);
+        internal static void LogWarning(string message) => Instance.Log(message, LogLevel.Warning);
         internal static void LogError(string message) => Instance.Log(message, LogLevel.Error);
         private void Log(string message, LogLevel logLevel) => Logger.Log(logLevel, message);
     }
