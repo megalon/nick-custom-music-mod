@@ -136,10 +136,11 @@ namespace NickCustomMusicMod.Patches
 
 					var customMusicData = JsonConvert.DeserializeObject<CustomMusicData>(jsonFile);
 
-					customMusicData.loopStartPointSec = Mathf.Clamp(customMusicData.loopStartPointSec, 0, music.clip.length);
-					customMusicData.loopEndPointSec   = Mathf.Clamp(customMusicData.loopEndPointSec, 0, music.clip.length);
-
-					HandleLoopPointsSec(customMusicData, music, jsonPath);
+					// If no sample loop points are found, use seconds instead
+					if (!HandleLoopPointsSamples(customMusicData, music, jsonPath))
+                    {
+						HandleLoopPointsSec(customMusicData, music, jsonPath);
+					}
 				}
 				catch (Exception e)
 				{
@@ -153,9 +154,50 @@ namespace NickCustomMusicMod.Patches
 			}
 		}
 
+		private static bool HandleLoopPointsSamples(CustomMusicData customMusicData, GameMusic music, string jsonPath)
+		{
+			Plugin.LogDebug($"customMusicData Samples: {customMusicData.loopStartPointSamples}, {customMusicData.loopEndPointSamples}");
+			if (customMusicData.loopStartPointSamples == 0)
+			{
+				Plugin.LogWarning($"\"loopStartPointSamples\" is 0 for json file \"{jsonPath}\"! It might not be in the file, or is misspelled!");
+			}
+
+			if (customMusicData.loopEndPointSamples == 0)
+			{
+				Plugin.LogWarning($"\"loopEndPointSamples\" is 0 for json file \"{jsonPath}\"! It might not be in the file, or is misspelled!");
+			}
+
+			if (customMusicData.loopStartPointSamples == 0 && customMusicData.loopEndPointSamples == 0)
+            {
+				// No loop points defined
+				return false;
+            }
+
+			if (customMusicData.loopEndPointSamples == 0 && customMusicData.loopStartPointSamples > 0)
+			{
+				Plugin.LogWarning($"\"loopStartPointSamples\" is greater than 0, but \"loopEndPointSamples\" is 0! Setting \"loopEndPointSamples\" to length of song for \"{jsonPath}\"");
+				customMusicData.loopEndPointSamples = music.clip.samples;
+			}
+
+			if (customMusicData.loopEndPointSamples > 0 && customMusicData.loopStartPointSamples > 0 && customMusicData.loopStartPointSamples == customMusicData.loopEndPointSamples)
+			{
+				Plugin.LogWarning($"\"loopStartPointSamples\" and \"loopEndPointSamples\" are the same value for \"{jsonPath}\"! Did you mean to do that?");
+			}
+
+			// TODO actually handle the loop points in samples!
+			// Currently it expects seconds!
+			// music.loopWhere = customMusicData.loopStartPointSamples;
+			// music.loopTime = customMusicData.loopEndPointSamples;
+
+			return true;
+		}
+
 		private static void HandleLoopPointsSec(CustomMusicData customMusicData, GameMusic music, string jsonPath)
-        {
-			Plugin.LogDebug($"customMusicData: {customMusicData.loopStartPointSec}, {customMusicData.loopEndPointSec}");
+		{
+			customMusicData.loopStartPointSec = Mathf.Clamp(customMusicData.loopStartPointSec, 0, music.clip.length);
+			customMusicData.loopEndPointSec = Mathf.Clamp(customMusicData.loopEndPointSec, 0, music.clip.length);
+
+			Plugin.LogDebug($"customMusicData Seconds: {customMusicData.loopStartPointSec}, {customMusicData.loopEndPointSec}");
 			if (customMusicData.loopStartPointSec == 0)
 			{
 				Plugin.LogWarning($"\"loopStartPointSec\" is 0 for json file \"{jsonPath}\"! It might not be in the file, or is misspelled!");
