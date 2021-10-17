@@ -16,24 +16,30 @@ namespace NickCustomMusicMod.Patches
     [HarmonyPatch(typeof(MusicChanger), "StartMusic")]
     class MusicChanger_StartMusic
 	{
-		static bool Prefix(ref string newMusicId)
+		static bool Prefix(ref string newMusicId, MusicChanger __instance)
 		{
-			// Fix startup case where string is empty
-			if (newMusicId.Equals("")) newMusicId = "MainMenu";
+			Plugin.LogDebug($"MusicChanger_StartMusic newMusicId: \"{newMusicId}\"");
 
-			Plugin.LogDebug($"newMusicId: {newMusicId}");
+			// Passing an empty string is meant to load the id set in the editor
+			// This id is stored in the private field "musicId"
+			if (newMusicId.Equals(""))
+            {
+				newMusicId = __instance.GetPrivateField<string>("musicId");
+			}
 
-			// Special case for main menu to prevent it from restarting when you navigate menu system
+			// Skip the function if the previous ID is the same as the current ID
 			if (Plugin.previousMusicID != null)
 			{
 				Plugin.LogDebug($"Plugin.previousMusicID: {Plugin.previousMusicID}");
-				if (newMusicId.Equals("MainMenu") && Plugin.previousMusicID.Equals("MainMenu"))
+				if (newMusicId.Equals(Plugin.previousMusicID))
 				{
-					Plugin.LogDebug($"previousMusicID was {Plugin.previousMusicID}! Skipping StartMusic");
+					Plugin.LogDebug($"\"previousMusicID\" is the same as \"newMusicId\"! Skipping StartMusic");
 					return false;
 				}
 			}
+			
 			Plugin.previousMusicID = newMusicId;
+
 			return true;
 		}
 	}
