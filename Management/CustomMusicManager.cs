@@ -26,14 +26,12 @@ namespace NickCustomMusicMod.Management
 			Directory.CreateDirectory(rootCustomSongsPath);
 
 			Plugin.LogInfo("Loading songs from subfolders...");
-			// Load songs
 			LoadFromSubDirectories(Consts.stagesFolderName);
 			LoadFromSubDirectories(Consts.menusFolderName);
 			LoadFromSubDirectories(Consts.victoryThemesFolderName);
 
 
 			Plugin.LogInfo("Generating folders if they don't exist...");
-			// Generate folders, incase any don't exist 
 			foreach (string menuID in Consts.MenuIDs)
 			{
 				Directory.CreateDirectory(Path.Combine(rootCustomSongsPath, Consts.menusFolderName, menuID));
@@ -96,6 +94,12 @@ namespace NickCustomMusicMod.Management
 					originalName = fileNameWithoutExtension,
 					resLocation = text,
 				};
+
+				if(musicItemDict.ContainsKey(music.id))
+                {
+					Plugin.LogWarning($"Ignoring \"{text}\" because duplicate file was detected! Do you have two different files with the same name in this folder?");
+					continue;
+                }
 
 				musicItemDict.Add(music.id, music);
 			}
