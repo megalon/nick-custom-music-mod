@@ -6,7 +6,7 @@ namespace NickCustomMusicMod.Data
 {
     class CustomMusicData
 	{
-		public float loopStartTimeSec;
-		public float loopEndTimeSec;
+		public float loopStartPointSec;
+		public float loopEndPointSec;
 	}
 }

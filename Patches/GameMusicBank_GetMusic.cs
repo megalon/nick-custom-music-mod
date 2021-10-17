@@ -136,33 +136,33 @@ namespace NickCustomMusicMod.Patches
 
 					var customMusicData = JsonConvert.DeserializeObject<CustomMusicData>(jsonFile);
 
-					customMusicData.loopStartTimeSec = Mathf.Clamp(customMusicData.loopStartTimeSec, 0, music.clip.length);
-					customMusicData.loopEndTimeSec   = Mathf.Clamp(customMusicData.loopEndTimeSec, 0, music.clip.length);
+					customMusicData.loopStartPointSec = Mathf.Clamp(customMusicData.loopStartPointSec, 0, music.clip.length);
+					customMusicData.loopEndPointSec   = Mathf.Clamp(customMusicData.loopEndPointSec, 0, music.clip.length);
 
-					Plugin.LogDebug($"customMusicData: {customMusicData.loopStartTimeSec}, {customMusicData.loopEndTimeSec}");
-					if (customMusicData.loopStartTimeSec == 0)
+					Plugin.LogDebug($"customMusicData: {customMusicData.loopStartPointSec}, {customMusicData.loopEndPointSec}");
+					if (customMusicData.loopStartPointSec == 0)
 					{
-						Plugin.LogWarning($"\"loopStartTimeSec\" is 0 for json file \"{jsonPath}\"! It might not be in the file, or is misspelled!");
+						Plugin.LogWarning($"\"loopStartPointSec\" is 0 for json file \"{jsonPath}\"! It might not be in the file, or is misspelled!");
 					}
 
-					if (customMusicData.loopEndTimeSec == 0)
+					if (customMusicData.loopEndPointSec == 0)
 					{
-						Plugin.LogWarning($"\"loopEndTimeSec\" is 0 for json file \"{jsonPath}\"! It might not be in the file, or is misspelled!");
+						Plugin.LogWarning($"\"loopEndPointSec\" is 0 for json file \"{jsonPath}\"! It might not be in the file, or is misspelled!");
 					}
 
-					if (customMusicData.loopEndTimeSec == 0 && customMusicData.loopStartTimeSec > 0)
+					if (customMusicData.loopEndPointSec == 0 && customMusicData.loopStartPointSec > 0)
 					{
-						Plugin.LogWarning($"\"loopStartTimeSec\" is greater than 0, but \"loopEndTimeSec\" is 0! Setting \"loopEndTimeSec\" to length of song for \"{jsonPath}\"");
-						customMusicData.loopEndTimeSec = music.clip.length;
+						Plugin.LogWarning($"\"loopStartPointSec\" is greater than 0, but \"loopEndPointSec\" is 0! Setting \"loopEndPointSec\" to length of song for \"{jsonPath}\"");
+						customMusicData.loopEndPointSec = music.clip.length;
 					}
 
-					if (customMusicData.loopEndTimeSec > 0 && customMusicData.loopStartTimeSec > 0 && customMusicData.loopStartTimeSec == customMusicData.loopEndTimeSec)
+					if (customMusicData.loopEndPointSec > 0 && customMusicData.loopStartPointSec > 0 && customMusicData.loopStartPointSec == customMusicData.loopEndPointSec)
 					{
-						Plugin.LogWarning($"\"loopStartTimeSec\" and \"loopEndTimeSec\" are the same value for \"{jsonPath}\"! Did you mean to do that?");
+						Plugin.LogWarning($"\"loopStartPointSec\" and \"loopEndPointSec\" are the same value for \"{jsonPath}\"! Did you mean to do that?");
 					}
 
-					music.loopWhere = customMusicData.loopStartTimeSec;
-					music.loopTime = customMusicData.loopEndTimeSec;
+					music.loopWhere = customMusicData.loopStartPointSec;
+					music.loopTime = customMusicData.loopEndPointSec;
 				}
 				catch (Exception e)
 				{
