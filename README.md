@@ -39,6 +39,10 @@ If multiple audio files are in the same folder, one is randomly selected each ti
 
 To define a loop start and end point, create a JSON file in the same folder as your audio file, and give it the same name as your audio file.
 
+A JSON file is just a regular text file, but instead of `.txt` it is `.json`
+
+You may need to [turn on file extensions on Windows](https://fileinfo.com/help/windows_10_show_file_extensions) to be able to see and edit the `.json` extension.
+
 File structure example
 ```
 Stages
