@@ -35,7 +35,7 @@ For example, if you want to use a different song for the Jellyfish Fields stage,
 
 If multiple audio files are in the same folder, one is randomly selected each time that stage / menu is loaded!
 
-### Loop points *(optional)*
+### ⟲ Loop points *(optional)*
 
 To define a loop start and end point, create a JSON file in the same folder as your audio file, and give it the same name as your audio file.
 
@@ -43,7 +43,7 @@ A JSON file is just a regular text file, but instead of `.txt` it is `.json`
 
 You may need to [turn on file extensions on Windows](https://fileinfo.com/help/windows_10_show_file_extensions) to be able to see and edit the `.json` extension.
 
-File structure example
+**File structure example**
 ```
 Stages
     ↳ Jellyfish Fields
@@ -51,7 +51,7 @@ Stages
         ↳ Song1.json
 ```
 
-JSON file contents
+**JSON file contents**
 ```json
 {
   "loopStartPointSec": "16.109",
@@ -73,7 +73,7 @@ I would recommend using a DAW with more precise BPM / looping support, such as R
 
 | Setting | Possible Values | Description |
 |-----|-----|-----|
-| `Use Default Songs` | `true` or `false` | `true` will include the built-in songs when the mod is randomly selecting a song to play. |
+| `Use Default Songs` | `true` or `false` | `true` will include the built-in songs when the mod is randomly selecting a song to play. However, character specific Victory Themes will *always* play, if available. |
 
 Simply edit this file in a text editor, and save it, then launch the game again.
 
@@ -151,10 +151,10 @@ Developers may be interested in this reference for the music IDs in game.
 
 | Menu Name | Notes |
 |-----------|-------|
-| ArcadeMap | Menu music played when you enter the Arcade mode menu|
-| LoseV1 | |
-| LoseV2 | Not sure why there are two of these yet |
+| ArcadeMap | Menu music played when you enter the Arcade mode menu. |
+| LoseV1 | Currently only played when you lose in Arcade mode. |
+| LoseV2 | Not sure why there are two of these yet! |
 | MainMenu | Main menu music! |
-| OnlineMenu | The MainMenu music tends to override this |
-| Versus | The "VS" text screen before match starts |
-| Victory | End of match victory screen|
+| OnlineMenu | Menu music played when you enter the Online mode menu. |
+| Versus | The "VS" text screen before match starts. |
+| Victory | End of match victory screen. |
