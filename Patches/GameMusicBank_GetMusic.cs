@@ -29,13 +29,23 @@ namespace NickCustomMusicMod.Patches
 			if (CustomMusicManager.songDictionaries.ContainsKey(id))
 			{
 				Dictionary<string, MusicItem> musicDict = CustomMusicManager.songDictionaries[id];
-				int numSongs = musicDict.Keys.Count;
+				int numCustomSongs = musicDict.Keys.Count;
 
-				if (numSongs > 0)
+				if (numCustomSongs > 0)
 				{
-					int randInt = UnityEngine.Random.Range(0, numSongs + (Plugin.Instance.useDefaultSongs.Value ? 1 : 0));
+					int randInt;
 
-					if (randInt >= numSongs) {
+					// Include default songs if value is enabled
+					// and this is not a victory theme
+					if (Plugin.Instance.useDefaultSongs.Value && !id.StartsWith(Consts.victoryThemesFolderName))
+                    {
+						randInt = UnityEngine.Random.Range(0, numCustomSongs + 1);
+					} else
+                    {
+						randInt = UnityEngine.Random.Range(0, numCustomSongs);
+					}
+
+					if (randInt >= numCustomSongs) {
 						Plugin.LogInfo("Randomly selected default music instead of custom songs!");
 					} else {
 						string randomSong = musicDict.Keys.ToArray<string>()[randInt];
