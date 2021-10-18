@@ -23,6 +23,9 @@ namespace NickCustomMusicMod.Patches
         static bool Prefix(ref string id)
 		{
 			var config = Plugin.Instance.Config;
+
+			Plugin.LogDebug($"GameMusicBank_GetMusic id: {id} previousMusicID: {Plugin.previousMusicID}");
+
 			Plugin.previousMusicID = id;
 
 			// Get a random song for this stage / menu

@@ -37,7 +37,27 @@ namespace NickCustomMusicMod.Patches
 					return false;
 				}
 			}
-			
+
+			Plugin.LogDebug($"MusicChanger_StartMusic id: {newMusicId} previousMusicID: {Plugin.previousMusicID}");
+
+			// Skip the online menu music if the setting is enabeld in the config
+			// and there are no custom songs for the OnlineMenu
+			if (Plugin.Instance.skipOnlineMenuMusicIfEmpty.Value && newMusicId.Equals("OnlineMenu")) {
+				if (CustomMusicManager.songDictionaries.TryGetValue(newMusicId, out var dict) && dict.Keys.Count == 0)
+				{
+					if (!Plugin.previousMusicID.Equals("MainMenu"))
+                    {
+						// Switch to main menu theme if we are coming out of a match in online mode
+						newMusicId = "MainMenu";
+						Plugin.LogInfo($"No songs found for \"OnlineMenu\", and \"Skip OnlineMenu Music if Empty\" is {Plugin.Instance.skipOnlineMenuMusicIfEmpty.Value}! Changing music ID to {newMusicId}.");
+					} else
+                    {
+						Plugin.LogInfo($"No songs found for \"OnlineMenu\", and \"Skip OnlineMenu Music if Empty\" is {Plugin.Instance.skipOnlineMenuMusicIfEmpty.Value}! Current song will keep playing.");
+						return false;
+					}
+				}
+			}
+
 			Plugin.previousMusicID = newMusicId;
 
 			return true;
