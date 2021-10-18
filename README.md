@@ -71,9 +71,10 @@ I would recommend using a DAW with more precise BPM / looping support, such as R
 
 `BepInEx\config\megalon.nick_custom_music_mod.cfg`
 
-| Setting | Possible Values | Description |
-|-----|-----|-----|
-| `Use Default Songs` | `true` or `false` | `true` will include the built-in songs when the mod is randomly selecting a song to play. However, character specific Victory Themes will *always* play, if available. |
+| Setting | Possible Values | Default | Description |
+|-----|-----|-----|-----|
+| `Use Default Songs` | `true` or `false` | `true` | Include the built-in songs when the mod is randomly selecting a song to play. However, character specific Victory Themes will *always* play, if available. |
+| `Skip OnlineMenu Music if Empty`| `true` or `false` | `true` | If no song files are found in the `OnlineMenu` folder, the online menu music will not play. | 
 
 Simply edit this file in a text editor, and save it, then launch the game again.
 
