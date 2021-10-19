@@ -26,14 +26,12 @@ namespace NickCustomMusicMod.Management
 			Directory.CreateDirectory(rootCustomSongsPath);
 
 			Plugin.LogInfo("Loading songs from subfolders...");
-			// Load songs
 			LoadFromSubDirectories(Consts.stagesFolderName);
 			LoadFromSubDirectories(Consts.menusFolderName);
 			LoadFromSubDirectories(Consts.victoryThemesFolderName);
 
 
 			Plugin.LogInfo("Generating folders if they don't exist...");
-			// Generate folders, incase any don't exist 
 			foreach (string menuID in Consts.MenuIDs)
 			{
 				Directory.CreateDirectory(Path.Combine(rootCustomSongsPath, Consts.menusFolderName, menuID));
@@ -63,7 +61,7 @@ namespace NickCustomMusicMod.Management
 			// Copy files from old folders to new
 			foreach (string directory in subDirectories)
 			{
-				UpdateOldFormat(directory);
+				FileHandlingUtils.UpdateOldFormat(directory);
 			}
 
 			// Since we may have deleted folders in the previous step, get the list again
@@ -92,18 +90,27 @@ namespace NickCustomMusicMod.Management
 
 				Plugin.LogInfo($"Found custom song: {parentFolderName}\\{folderName}\\{Path.GetFileName(text)}");
 
-                MusicItem music = new MusicItem {
-                    id = "CUSTOM_" + fileNameWithoutExtension,
-                    originalName = fileNameWithoutExtension,
-                    resLocation = text,
-                };
-                // Files with a .txt extension will be redirected to the Music Bank folder to find music of the same name, with a naming convention of example.ogg.txt
-                if (Path.GetExtension(text) == ".txt") {
-                    music.resLocation = Path.Combine(rootCustomSongsPath, Consts.musicBankFolderName, fileNameWithoutExtension).ToString();
-                    if (File.Exists(music.resLocation)) 
-                        musicItemDict.Add(music.id, music);
-                    // As to not double up and not add non existent files
-                    continue;
+				MusicItem music = new MusicItem {
+					id = "CUSTOM_" + fileNameWithoutExtension,
+					originalName = fileNameWithoutExtension,
+					resLocation = text,
+				};
+
+				Plugin.LogInfo($"{fileNameWithoutExtension}");
+
+				// Files with a .txt extension will be redirected to the Music Bank folder to find music of the same name, with a naming convention of example.ogg.txt
+				if (Path.GetExtension(text) == ".txt") {
+					music.resLocation = Path.Combine(rootCustomSongsPath, Consts.musicBankFolderName, fileNameWithoutExtension).ToString();
+					if (File.Exists(music.resLocation)) 
+						musicItemDict.Add(music.id, music);
+					// As to not double up and not add non existent files
+					continue;
+				}
+
+				if(musicItemDict.ContainsKey(music.id))
+                {
+					Plugin.LogWarning($"Ignoring \"{text}\" because duplicate file was detected! Do you have two different files with the same name in this folder?");
+					continue;
                 }
 
 				musicItemDict.Add(music.id, music);
@@ -116,87 +123,7 @@ namespace NickCustomMusicMod.Management
 			else
 				prefix = $"{parentFolderName}_";
 
-			songDictionaries.Add(prefix + TranslateFolderNameToID(folderName), musicItemDict);
-		}
-
-		public static string TranslateFolderNameToID(string folderName) {
-			if (Consts.StageIDs.ContainsKey(folderName))
-			{
-				return Consts.StageIDs[folderName];
-			} else if (Consts.CharacterIDs.ContainsKey(folderName))
-            {
-				return Consts.CharacterIDs[folderName];
-            }
-			return folderName;
-		}
-
-		public static void UpdateOldFormat(string folderPath) {
-			var folderName = Path.GetFileName(folderPath);
-
-			if (Consts.StageIDs.ContainsValue(folderName))
-			{
-				string updatedStageName = "";
-				foreach (string key in Consts.StageIDs.Keys)
-				{
-					if (Consts.StageIDs[key] == folderName) {
-						updatedStageName = key;
-                    }
-				}
-
-				// StageID and display name are the same. EX: Omashu
-				if (folderName.Equals(updatedStageName)) {
-					return;
-                }
-				
-				string updatedFolderPath = Path.Combine(Directory.GetParent(folderPath).FullName, updatedStageName);
-
-				try {
-					Plugin.LogInfo($"Renaming \"{folderName}\" to \"{updatedStageName}\"...");
-					Directory.Move(folderPath, updatedFolderPath);
-				} catch (IOException ex){
-					Plugin.LogInfo($"Could not rename directory \"{folderName}\"! Maybe the new directory already exists?");
-					Plugin.LogInfo($"Attempting to copy files from \"{folderName}\" to \"{updatedStageName}\" instead.");
-					CopyFilesAndDeleteOriginalFolder(folderPath, updatedFolderPath);
-				}
-				catch (Exception ex)
-				{
-					Plugin.LogError($"Failed to rename old folder \"{folderName}\" to \"{updatedStageName}\"!");
-					Plugin.LogError($"Exception {ex.Message}");
-				}
-			}
-		}
-
-		public static bool CopyFilesAndDeleteOriginalFolder(string originalDirPath, string targetDirPath) {
-			string[] files = Directory.GetFiles(originalDirPath);
-
-			try {
-				// Copy the files and overwrite destination files if they already exist.
-				foreach (string filePath in files)
-				{
-					string fileName = Path.GetFileName(filePath);
-					string destPath = Path.Combine(targetDirPath, fileName);
-					Plugin.LogInfo($"Copying file \"{fileName}\" to \"{destPath}\"");
-					File.Copy(filePath, destPath, true);
-				}
-
-				Plugin.LogInfo($"Finished copying files. Deleting original folder \"{originalDirPath}\"");
-
-				try {
-					// Delete og folder after copying files
-					Directory.Delete(originalDirPath, true);
-					Plugin.LogInfo($"Deleted \"{originalDirPath}\"");
-				} catch(Exception ex) {
-					Plugin.LogError($"Failed to delete original folder \"{originalDirPath}\"!");
-					Plugin.LogError($"Exception {ex.Message}");
-					return false;
-				}
-			} catch(Exception ex) {
-				Plugin.LogError($"Failed to copy files from folder \"{originalDirPath}\" to \"{targetDirPath}\"!");
-				Plugin.LogError($"Exception {ex.Message}");
-				return false;
-			}
-
-			return true;
+			songDictionaries.Add(prefix + FileHandlingUtils.TranslateFolderNameToID(folderName), musicItemDict);
 		}
 
 		internal static Dictionary<string, Dictionary<string, MusicItem>> songDictionaries;

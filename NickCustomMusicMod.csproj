@@ -1,44 +1,47 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>1.2.2</Version>
-    <AssemblyVersion>1.2.2.0</AssemblyVersion>
-    <FileVersion>1.2.2.0</FileVersion>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<Version>1.3.3</Version>
+		<AssemblyVersion>1.3.3.0</AssemblyVersion>
+		<FileVersion>1.3.3.0</FileVersion>
+	</PropertyGroup>
 
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="xcopy &quot;$(ProjectDir)$(OutDir)$(TargetFileName)&quot; &quot;D:\SteamLibrary\steamapps\common\Nickelodeon All-Star Brawl\BepInEx\plugins&quot; /Y" />
-  </Target>
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+		<Exec Command="xcopy &quot;$(ProjectDir)$(OutDir)$(TargetFileName)&quot; &quot;D:\SteamLibrary\steamapps\common\Nickelodeon All-Star Brawl\BepInEx\plugins&quot; /Y" />
+	</Target>
 
-  <ItemGroup>
-    <Reference Include="0Harmony">
-      <HintPath>D:\SteamLibrary\steamapps\common\Nickelodeon All-Star Brawl\BepInEx\core\0Harmony.dll</HintPath>
-    </Reference>
-    <Reference Include="Assembly-CSharp">
-      <HintPath>D:\SteamLibrary\steamapps\common\Nickelodeon All-Star Brawl\Nickelodeon All-Star Brawl_Data\Managed\Assembly-CSharp.dll</HintPath>
-    </Reference>
-    <Reference Include="BepInEx">
-      <HintPath>D:\SteamLibrary\steamapps\common\Nickelodeon All-Star Brawl\BepInEx\core\BepInEx.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine">
-      <HintPath>D:\SteamLibrary\steamapps\common\Nickelodeon All-Star Brawl\Nickelodeon All-Star Brawl_Data\Managed\UnityEngine.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.AudioModule">
-      <HintPath>D:\SteamLibrary\steamapps\common\Nickelodeon All-Star Brawl\Nickelodeon All-Star Brawl_Data\Managed\UnityEngine.AudioModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.CoreModule">
-      <HintPath>D:\SteamLibrary\steamapps\common\Nickelodeon All-Star Brawl\Nickelodeon All-Star Brawl_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.UnityWebRequestAudioModule">
-      <HintPath>D:\SteamLibrary\steamapps\common\Nickelodeon All-Star Brawl\Nickelodeon All-Star Brawl_Data\Managed\UnityEngine.UnityWebRequestAudioModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.UnityWebRequestModule">
-      <HintPath>D:\SteamLibrary\steamapps\common\Nickelodeon All-Star Brawl\Nickelodeon All-Star Brawl_Data\Managed\UnityEngine.UnityWebRequestModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.UnityWebRequestWWWModule">
-      <HintPath>D:\SteamLibrary\steamapps\common\Nickelodeon All-Star Brawl\Nickelodeon All-Star Brawl_Data\Managed\UnityEngine.UnityWebRequestWWWModule.dll</HintPath>
-    </Reference>
-  </ItemGroup>
+	<ItemGroup>
+		<Reference Include="0Harmony">
+			<HintPath>D:\SteamLibrary\steamapps\common\Nickelodeon All-Star Brawl\BepInEx\core\0Harmony.dll</HintPath>
+		</Reference>
+		<Reference Include="Assembly-CSharp">
+			<HintPath>D:\SteamLibrary\steamapps\common\Nickelodeon All-Star Brawl\Nickelodeon All-Star Brawl_Data\Managed\Assembly-CSharp.dll</HintPath>
+		</Reference>
+		<Reference Include="BepInEx">
+			<HintPath>D:\SteamLibrary\steamapps\common\Nickelodeon All-Star Brawl\BepInEx\core\BepInEx.dll</HintPath>
+		</Reference>
+		<Reference Include="Newtonsoft.Json">
+			<HintPath>D:\SteamLibrary\steamapps\common\Nickelodeon All-Star Brawl\BepInEx\core\Newtonsoft.Json.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine">
+			<HintPath>D:\SteamLibrary\steamapps\common\Nickelodeon All-Star Brawl\Nickelodeon All-Star Brawl_Data\Managed\UnityEngine.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.AudioModule">
+			<HintPath>D:\SteamLibrary\steamapps\common\Nickelodeon All-Star Brawl\Nickelodeon All-Star Brawl_Data\Managed\UnityEngine.AudioModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.CoreModule">
+			<HintPath>D:\SteamLibrary\steamapps\common\Nickelodeon All-Star Brawl\Nickelodeon All-Star Brawl_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.UnityWebRequestAudioModule">
+			<HintPath>D:\SteamLibrary\steamapps\common\Nickelodeon All-Star Brawl\Nickelodeon All-Star Brawl_Data\Managed\UnityEngine.UnityWebRequestAudioModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.UnityWebRequestModule">
+			<HintPath>D:\SteamLibrary\steamapps\common\Nickelodeon All-Star Brawl\Nickelodeon All-Star Brawl_Data\Managed\UnityEngine.UnityWebRequestModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.UnityWebRequestWWWModule">
+			<HintPath>D:\SteamLibrary\steamapps\common\Nickelodeon All-Star Brawl\Nickelodeon All-Star Brawl_Data\Managed\UnityEngine.UnityWebRequestWWWModule.dll</HintPath>
+		</Reference>
+	</ItemGroup>
 
 </Project>

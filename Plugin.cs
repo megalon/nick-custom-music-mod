@@ -14,6 +14,7 @@ namespace NickCustomMusicMod
         internal static Plugin Instance;
         internal static string previousMusicID;
         internal ConfigEntry<bool> useDefaultSongs;
+        internal ConfigEntry<bool> skipOnlineMenuMusicIfEmpty;
         private void Awake()
         {
             Logger.LogDebug($"Plugin {PluginInfo.PLUGIN_NAME} is loaded!");
@@ -28,6 +29,7 @@ namespace NickCustomMusicMod
             var config = this.Config;
 
             useDefaultSongs = Config.Bind<bool>("Options", "Use Default Songs", false);
+            skipOnlineMenuMusicIfEmpty = Config.Bind<bool>("Options", "Skip OnlineMenu Music if Empty", true);
 
             config.SettingChanged += OnConfigSettingChanged;
 
@@ -45,6 +47,7 @@ namespace NickCustomMusicMod
 
         internal static void LogDebug(string message) => Instance.Log(message, LogLevel.Debug);
         internal static void LogInfo(string message) => Instance.Log(message, LogLevel.Info);
+        internal static void LogWarning(string message) => Instance.Log(message, LogLevel.Warning);
         internal static void LogError(string message) => Instance.Log(message, LogLevel.Error);
         private void Log(string message, LogLevel logLevel) => Logger.Log(logLevel, message);
     }
