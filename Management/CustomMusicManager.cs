@@ -47,7 +47,7 @@ namespace NickCustomMusicMod.Management
 				Directory.CreateDirectory(Path.Combine(rootCustomSongsPath, Consts.victoryThemesFolderName, characterName));
 			}
 
-            Directory.CreateDirectory(Path.Combine(rootCustomSongsPath, Consts.musicBankFolderName));
+			Directory.CreateDirectory(Path.Combine(rootCustomSongsPath, Consts.musicBankFolderName));
 		}
 
 		public static void LoadFromSubDirectories(string parentFolderName)
