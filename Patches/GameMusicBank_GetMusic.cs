@@ -149,10 +149,6 @@ namespace NickCustomMusicMod.Patches
 
 					var customMusicData = JsonConvert.DeserializeObject<CustomMusicData>(jsonFile);
 
-
-
-
-
 					customMusicData.loopStartPointSec = Mathf.Clamp(customMusicData.loopStartPointSec, 0, music.clip.length);
 					customMusicData.loopEndPointSec   = Mathf.Clamp(customMusicData.loopEndPointSec, 0, music.clip.length);
 
