@@ -91,7 +91,7 @@ namespace NickCustomMusicMod.Management
 
 				Plugin.LogInfo($"Found custom song: {parentFolderName}\\{folderName}\\{Path.GetFileName(text)}");
 
-				MusicItem music = new MusicItem 
+				MusicItem music = new MusicItem
 				{
 					id = "CUSTOM_" + fileNameWithoutExtension,
 					originalName = fileNameWithoutExtension,
