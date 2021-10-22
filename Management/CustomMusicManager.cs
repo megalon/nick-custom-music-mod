@@ -142,18 +142,18 @@ namespace NickCustomMusicMod.Management
 		}
 
 		/// <summary>
-		/// Victory Theme keys need a special prefix, while others do not.
+		/// Victory Theme keys need a special prefix, while others may not.
 		/// This function constructs the correct key for each song type.
 		/// </summary>
-		/// <param name="parentFolderName"></param>
-		/// <param name="folderName"></param>
+		/// <param name="musicType">Likely the parent folder name. "Menu", "Stage", "Victory Themes", etc. </param>
+		/// <param name="name">Name of this Menu / Stage / Character</param>
 		/// <returns>Dictionary key for "songDictionaries" dictionary</returns>
-		private static string constructDictionaryKey(string parentFolderName, string folderName)
+		private static string constructDictionaryKey(string musicType, string name)
 		{
-			if (parentFolderName == Consts.stagesFolderName || parentFolderName == Consts.menusFolderName)
-				return FileHandlingUtils.TranslateFolderNameToID(folderName);
+			if (musicType == Consts.stagesFolderName || musicType == Consts.menusFolderName)
+				return FileHandlingUtils.TranslateFolderNameToID(name);
 			else
-				return $"{parentFolderName}_{FileHandlingUtils.TranslateFolderNameToID(folderName)}";
+				return $"{musicType}_{FileHandlingUtils.TranslateFolderNameToID(name)}";
 		}
 
 		private static void addMusicItemToDict(Dictionary<string, MusicItem> musicItemDict, string songPath)
