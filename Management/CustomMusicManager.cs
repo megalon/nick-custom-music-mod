@@ -114,31 +114,21 @@ namespace NickCustomMusicMod.Management
 
 				if (folderName.Equals(Consts.musicBankFolderName)) continue;
 
-				LoadFromPackSubdirectories(packName, folderName);
+				LoadFromPackSubdirectory(packName, folderName);
 			}
 		}
 
-		public static void LoadFromPackSubdirectories(string packName, string parentFolderName) {
-			var subDirectories = Directory.GetDirectories(Path.Combine(rootCustomSongsPath, Consts.songPacksFolderName, packName, parentFolderName));
+		public static void LoadFromPackSubdirectory(string packName, string folderName) {
+			var folderPath = Path.Combine(rootCustomSongsPath, Consts.songPacksFolderName, packName, folderName);
 
-			foreach (string directory in subDirectories) {
-				var folderName = new DirectoryInfo(directory).Name;
+			foreach (string textFileName in from x in Directory.GetFiles(folderPath) where x.ToLower().EndsWith(".txt") select x)
+			{
+				Plugin.LogInfo($"LoadSongsFromList {packName}\\{folderName}\\{textFileName}");
 
-				LoadSongsFromList(packName, parentFolderName, folderName);
-			}
-		}
+				string musicBankPath = Path.Combine(rootCustomSongsPath, Consts.songPacksFolderName, packName, Consts.musicBankFolderName);
+				string listPath = Path.Combine(folderPath, textFileName);
 
-		public static void LoadSongsFromList(string packName, string parentFolderName, string folderName)
-		{
-			Plugin.LogInfo($"LoadSongsFromList {packName}\\{parentFolderName}\\{folderName}");
-
-			string musicBankPath = Path.Combine(rootCustomSongsPath, Consts.songPacksFolderName, packName, Consts.musicBankFolderName);
-			string listPath = Path.Combine(rootCustomSongsPath, Consts.songPacksFolderName, packName, parentFolderName, folderName, Consts.songListName);
-
-			Dictionary<string, MusicItem> musicItemDict = songDictionaries[constructDictionaryKey(parentFolderName, folderName)];
-
-			if (File.Exists(listPath)) {
-				Plugin.LogInfo($"Found song list: {packName}\\{parentFolderName}\\{folderName}\\{Consts.songListName}");
+				Dictionary<string, MusicItem> musicItemDict = songDictionaries[constructDictionaryKey(folderName, Path.GetFileNameWithoutExtension(textFileName))];
 
 				foreach (string songFileName in File.ReadLines(listPath))
 				{
