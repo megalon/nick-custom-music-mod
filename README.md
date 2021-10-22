@@ -69,7 +69,7 @@ To find loop points in your song, you can use some free audio software like [Aud
 
 I would recommend using a DAW with more precise BPM / looping support, such as Reaper, Ableton Live, FL Studio, etc.
 
-## 🎵 Song Packs (Advanced usage)
+## 🎵 Song Packs *(Advanced Usage)*
 
 Version 1.4.0 added **Song Pack** support.
 
