@@ -130,13 +130,11 @@ namespace NickCustomMusicMod.Management
 
 				Dictionary<string, MusicItem> musicItemDict = songDictionaries[constructDictionaryKey(folderName, Path.GetFileNameWithoutExtension(textFileName))];
 
-				foreach (string songFileName in File.ReadLines(listPath))
+				foreach (string textLine in File.ReadLines(listPath))
 				{
-					Plugin.LogInfo($"Line text: \"{songFileName}\"");
+					if (textLine.IsNullOrWhiteSpace()) continue;
 
-					string songPath = Path.Combine(musicBankPath, songFileName);
-
-					addMusicItemToDict(musicItemDict, songPath);
+					addMusicItemToDict(musicItemDict, Path.Combine(musicBankPath, textLine));
 				}
 			}
 		}
@@ -156,7 +154,7 @@ namespace NickCustomMusicMod.Management
 				return $"{musicType}_{FileHandlingUtils.TranslateFolderNameToID(name)}";
 		}
 
-		private static void addMusicItemToDict(Dictionary<string, MusicItem> musicItemDict, string songPath)
+		private static bool addMusicItemToDict(Dictionary<string, MusicItem> musicItemDict, string songPath)
         {
 			if (File.Exists(songPath))
 			{
@@ -177,8 +175,13 @@ namespace NickCustomMusicMod.Management
 				} else
                 {
 					musicItemDict.Add(music.id, music);
+					return true;
 				}
-			}
+			} else
+            {
+				Plugin.LogWarning($"addMusicItemToDict failed because file doesn't exist! \"{songPath}\"");
+            }
+			return false;
 		}
 
 		internal static Dictionary<string, Dictionary<string, MusicItem>> songDictionaries;
