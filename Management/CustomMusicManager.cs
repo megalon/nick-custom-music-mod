@@ -83,28 +83,11 @@ namespace NickCustomMusicMod.Management
 
 			Dictionary<string, MusicItem> musicItemDict = new Dictionary<string, MusicItem>();
 
-			foreach (string text in from x in Directory.GetFiles(path)
+			foreach (string songPath in from x in Directory.GetFiles(path)
 				where x.ToLower().EndsWith(".ogg") || x.ToLower().EndsWith(".wav") || x.ToLower().EndsWith(".mp3")
 				select x)
 				{
-				string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(text);
-
-				Plugin.LogInfo($"Found custom song: {parentFolderName}\\{folderName}\\{Path.GetFileName(text)}");
-
-				MusicItem music = new MusicItem
-				{
-					id = "CUSTOM_" + fileNameWithoutExtension,
-					originalName = fileNameWithoutExtension,
-					resLocation = text,
-				};
-
-				if(musicItemDict.ContainsKey(music.id))
-                {
-					Plugin.LogWarning($"Ignoring \"{text}\" because duplicate file was detected! Do you have two different files with the same name in this folder?");
-					continue;
-                }
-
-				musicItemDict.Add(music.id, music);
+				addMusicItemToDict(musicItemDict, songPath);
 			}
 
 			string prefix;
@@ -130,7 +113,7 @@ namespace NickCustomMusicMod.Management
 		}
 
 		public static void LoadPack(string packName) {
-			Plugin.LogInfo($"LoadPack {packName}");
+			Plugin.LogInfo($"Loading SongPack:\"{packName}\"");
 			var subDirectories = Directory.GetDirectories(Path.Combine(rootCustomSongsPath, Consts.songPacksFolderName, packName));
 
 			foreach (string directory in subDirectories) {
@@ -177,25 +160,32 @@ namespace NickCustomMusicMod.Management
 
 					string songPath = Path.Combine(musicBankPath, songFileName);
 
-					if (File.Exists(songPath)) {
-						Plugin.LogInfo($"Found custom song: {packName}\\{parentFolderName}\\{folderName}\\{songFileName}");
+					addMusicItemToDict(musicItemDict, songPath);
+				}
+			}
+		}
 
-						string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(songFileName);
+		private static void addMusicItemToDict(Dictionary<string, MusicItem> musicItemDict, string songPath)
+        {
+			if (File.Exists(songPath))
+			{
+				Plugin.LogInfo($"Found custom song: \"{songPath}\"");
 
-						MusicItem music = new MusicItem 
-						{
-							id = "CUSTOM_" + fileNameWithoutExtension,
-							originalName = fileNameWithoutExtension,
-							resLocation = songPath
-						};
+				string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(songPath);
 
-						if (musicItemDict.ContainsKey(music.id)) {
-							Plugin.LogWarning($"Ignoring \"{songPath}\" because duplicate file was detected! Do you have two different files with the same name in this folder?");
-							continue;
-						}
+				MusicItem music = new MusicItem
+				{
+					id = "CUSTOM_" + fileNameWithoutExtension,
+					originalName = fileNameWithoutExtension,
+					resLocation = songPath
+				};
 
-						musicItemDict.Add(music.id, music);
-					}
+				if (musicItemDict.ContainsKey(music.id))
+				{
+					Plugin.LogWarning($"Ignoring \"{songPath}\" because duplicate file was detected! Do you have two different files with the same name in this folder?");
+				} else
+                {
+					musicItemDict.Add(music.id, music);
 				}
 			}
 		}
