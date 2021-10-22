@@ -135,6 +135,7 @@ namespace NickCustomMusicMod.Management
 			foreach (string directory in subDirectories) {
 				var folderName = new DirectoryInfo(directory).Name;
 
+				if (folderName.Equals(Consts.musicBankFolderName)) continue;
 				LoadFromPackSubdirectories(packName, folderName);
 			}
 		}
