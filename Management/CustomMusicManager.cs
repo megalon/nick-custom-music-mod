@@ -130,12 +130,14 @@ namespace NickCustomMusicMod.Management
 		}
 
 		public static void LoadPack(string packName) {
+			Plugin.LogInfo($"LoadPack {packName}");
 			var subDirectories = Directory.GetDirectories(Path.Combine(rootCustomSongsPath, Consts.songPacksFolderName, packName));
 
 			foreach (string directory in subDirectories) {
 				var folderName = new DirectoryInfo(directory).Name;
 
 				if (folderName.Equals(Consts.musicBankFolderName)) continue;
+
 				LoadFromPackSubdirectories(packName, folderName);
 			}
 		}
@@ -150,10 +152,11 @@ namespace NickCustomMusicMod.Management
 			}
 		}
 
-		public static void LoadSongsFromList(string packName, string parentFolderName, string folderName) {
-			Plugin.LogInfo($"LoadSongsFromList \"{packName}\"...\"{folderName}\"");
+		public static void LoadSongsFromList(string packName, string parentFolderName, string folderName)
+		{
+			Plugin.LogInfo($"LoadSongsFromList {packName}\\{parentFolderName}\\{folderName}");
 
-			string path = Path.Combine(rootCustomSongsPath, Consts.songPacksFolderName, packName, Consts.musicBankFolderName);
+			string musicBankPath = Path.Combine(rootCustomSongsPath, Consts.songPacksFolderName, packName, Consts.musicBankFolderName);
 			string listPath = Path.Combine(rootCustomSongsPath, Consts.songPacksFolderName, packName, parentFolderName, folderName, Consts.songListName);
 
 			string prefix;
@@ -166,17 +169,18 @@ namespace NickCustomMusicMod.Management
 			Dictionary<string, MusicItem> musicItemDict = songDictionaries[prefix + FileHandlingUtils.TranslateFolderNameToID(folderName)];
 
 			if (File.Exists(listPath)) {
-				Plugin.LogInfo($"Found song list in: {packName}\\{parentFolderName}\\{folderName}");
+				Plugin.LogInfo($"Found song list: {packName}\\{parentFolderName}\\{folderName}\\{Consts.songListName}");
 
-				foreach (string Song in System.IO.File.ReadLines(listPath)) {
-					string songPath = Path.Combine(path, Song);
+				foreach (string songFileName in File.ReadLines(listPath))
+				{
+					Plugin.LogInfo($"Line text: \"{songFileName}\"");
 
-					Plugin.LogInfo($"Line text: {Song}");
+					string songPath = Path.Combine(musicBankPath, songFileName);
 
 					if (File.Exists(songPath)) {
-						Plugin.LogInfo($"Found custom song: {packName}\\{parentFolderName}\\{folderName}\\{Song}");
+						Plugin.LogInfo($"Found custom song: {packName}\\{parentFolderName}\\{folderName}\\{songFileName}");
 
-						string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(Song);
+						string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(songFileName);
 
 						MusicItem music = new MusicItem 
 						{
