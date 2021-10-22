@@ -90,14 +90,7 @@ namespace NickCustomMusicMod.Management
 				addMusicItemToDict(musicItemDict, songPath);
 			}
 
-			string prefix;
-
-			if (parentFolderName == Consts.stagesFolderName || parentFolderName == Consts.menusFolderName)
-				prefix = String.Empty;
-			else
-				prefix = $"{parentFolderName}_";
-
-			songDictionaries.Add(prefix + FileHandlingUtils.TranslateFolderNameToID(folderName), musicItemDict);
+			songDictionaries.Add(constructDictionaryKey(parentFolderName, folderName), musicItemDict);
 		}
 
 		public static void LoadFromSongPacks() {
@@ -142,14 +135,7 @@ namespace NickCustomMusicMod.Management
 			string musicBankPath = Path.Combine(rootCustomSongsPath, Consts.songPacksFolderName, packName, Consts.musicBankFolderName);
 			string listPath = Path.Combine(rootCustomSongsPath, Consts.songPacksFolderName, packName, parentFolderName, folderName, Consts.songListName);
 
-			string prefix;
-
-			if (parentFolderName == Consts.stagesFolderName || parentFolderName == Consts.menusFolderName)
-				prefix = String.Empty;
-			else
-				prefix = $"{parentFolderName}_";
-
-			Dictionary<string, MusicItem> musicItemDict = songDictionaries[prefix + FileHandlingUtils.TranslateFolderNameToID(folderName)];
+			Dictionary<string, MusicItem> musicItemDict = songDictionaries[constructDictionaryKey(parentFolderName, folderName)];
 
 			if (File.Exists(listPath)) {
 				Plugin.LogInfo($"Found song list: {packName}\\{parentFolderName}\\{folderName}\\{Consts.songListName}");
@@ -163,6 +149,21 @@ namespace NickCustomMusicMod.Management
 					addMusicItemToDict(musicItemDict, songPath);
 				}
 			}
+		}
+
+		/// <summary>
+		/// Victory Theme keys need a special prefix, while others do not.
+		/// This function constructs the correct key for each song type.
+		/// </summary>
+		/// <param name="parentFolderName"></param>
+		/// <param name="folderName"></param>
+		/// <returns>Dictionary key for "songDictionaries" dictionary</returns>
+		private static string constructDictionaryKey(string parentFolderName, string folderName)
+		{
+			if (parentFolderName == Consts.stagesFolderName || parentFolderName == Consts.menusFolderName)
+				return FileHandlingUtils.TranslateFolderNameToID(folderName);
+			else
+				return $"{parentFolderName}_{FileHandlingUtils.TranslateFolderNameToID(folderName)}";
 		}
 
 		private static void addMusicItemToDict(Dictionary<string, MusicItem> musicItemDict, string songPath)
