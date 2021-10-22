@@ -13,7 +13,6 @@ namespace NickCustomMusicMod.Utils
         public static readonly string victoryThemesFolderName = "Victory Themes";
 		public static readonly string songPacksFolderName = "_Song Packs";
 		public static readonly string musicBankFolderName = "_Music Bank";
-		public static readonly string songListName = "songs-from-bank.txt";
 
         public static readonly Dictionary<string, string> StageIDs = new Dictionary<string,string> {
             { "CatDogs House", "House" },

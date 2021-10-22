@@ -29,7 +29,11 @@ namespace NickCustomMusicMod.Management
 			LoadFromSubDirectories(Consts.stagesFolderName);
 			LoadFromSubDirectories(Consts.menusFolderName);
 			LoadFromSubDirectories(Consts.victoryThemesFolderName);
+			Plugin.LogInfo("Finished loading songs from subfolders!");
+
+			Plugin.LogInfo("Loading song packs...");
 			LoadFromSongPacks();
+			Plugin.LogInfo("Finished loading song packs!");
 
 
 			Plugin.LogInfo("Generating folders if they don't exist...");
@@ -49,6 +53,7 @@ namespace NickCustomMusicMod.Management
 			}
 
 			Directory.CreateDirectory(Path.Combine(rootCustomSongsPath, Consts.songPacksFolderName));
+			Plugin.LogInfo("Finished generating folders!");
 		}
 
 		public static void LoadFromSubDirectories(string parentFolderName)
