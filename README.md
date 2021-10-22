@@ -13,7 +13,7 @@ Download the latest version of this mod from the [Slime Mod Manager](https://git
 
 For basic usage see the simple format shown below.
 
-For more advanced usage, see [Song Packs](https://github.com/megalon/nick-custom-music-mod#-song-packs).
+For more advanced usage, see [Song Packs](#-song-packs).
 
 ### Folder structure
 ```
@@ -69,7 +69,7 @@ To find loop points in your song, you can use some free audio software like [Aud
 
 I would recommend using a DAW with more precise BPM / looping support, such as Reaper, Ableton Live, FL Studio, etc.
 
-## 🎵 Song Packs
+## 🎵 Song Packs (Advanced usage)
 
 Version 1.4.0 added **Song Pack** support.
 
@@ -124,7 +124,7 @@ When you're finished making your Song Pack, be sure to rename the `Template Song
 
 Finally, zip the entire folder structure `CustomSongs/_Song Packs/{your song pack}`. Be sure to only include your Song Pack, and not the rest of your custom songs! 
 
-**Note:** *If you want the songs to loop at specific points, you will need to place corresponding json files in the `_Music Bank` folder as well. See [Loop Points.](https://github.com/megalon/nick-custom-music-mod#-loop-points-optional)*
+**Note:** *If you want the songs to loop at specific points, you will need to place corresponding json files in the `_Music Bank` folder as well. See [Loop Points.](#-loop-points-optional)*
 
 ## 📝 Configuration
 
