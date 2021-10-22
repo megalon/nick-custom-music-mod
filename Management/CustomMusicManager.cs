@@ -128,7 +128,7 @@ namespace NickCustomMusicMod.Management
 
 			foreach (string textFileName in from x in Directory.GetFiles(folderPath) where x.ToLower().EndsWith(".txt") select x)
 			{
-				Plugin.LogInfo($"LoadSongsFromList {packName}\\{folderName}\\{textFileName}");
+				Plugin.LogInfo($"LoadFromPackSubdirectory {packName}\\{folderName}\\{textFileName}");
 
 				string musicBankPath = Path.Combine(rootCustomSongsPath, Consts.songPacksFolderName, packName, Consts.musicBankFolderName);
 				string listPath = Path.Combine(folderPath, textFileName);
@@ -176,7 +176,7 @@ namespace NickCustomMusicMod.Management
 
 				if (musicItemDict.ContainsKey(music.id))
 				{
-					Plugin.LogWarning($"Ignoring \"{songPath}\" because duplicate file was detected! Do you have two different files with the same name in this folder?");
+					Plugin.LogWarning($"Ignoring \"{songPath}\" because duplicate file was detected! Do you have two different files with the same name for this stage / menu / victory theme?");
 				} else
                 {
 					musicItemDict.Add(music.id, music);
