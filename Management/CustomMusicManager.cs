@@ -139,7 +139,7 @@ namespace NickCustomMusicMod.Management
 				{
 					if (textLine.IsNullOrWhiteSpace()) continue;
 
-					addMusicItemToDict(musicItemDict, Path.Combine(musicBankPath, textLine));
+					addMusicItemToDict(musicItemDict, Path.Combine(musicBankPath, textLine.Trim()));
 				}
 			}
 		}
