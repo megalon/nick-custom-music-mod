@@ -13,7 +13,7 @@ Download the latest version of this mod from the [Slime Mod Manager](https://git
 
 For basic usage see the simple format shown below.
 
-For more advanced usage, see [Song Packs](#-song-packs).
+For more advanced usage, see [Song Packs](#-song-packs-advanced-usage).
 
 ### Folder structure
 ```
