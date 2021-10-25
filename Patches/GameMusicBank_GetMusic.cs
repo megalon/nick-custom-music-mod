@@ -90,7 +90,7 @@ namespace NickCustomMusicMod.Patches
 					return false;
 				}
 
-				Debug.LogError($"Error! Could not find {id} in key value pairs inside CustomMusicManager.songDictionaries");
+				Plugin.LogError($"Error! Could not find {id} in key value pairs inside CustomMusicManager.songDictionaries");
             }
 
 			return true;
@@ -122,7 +122,7 @@ namespace NickCustomMusicMod.Patches
             yield return audioLoader.SendWebRequest();
 			if (audioLoader.error != null)
 			{
-				Debug.LogError(audioLoader.error);
+				Plugin.LogError(audioLoader.error);
 				yield break;
 			}
 			music.clip = DownloadHandlerAudioClip.GetContent(audioLoader);
