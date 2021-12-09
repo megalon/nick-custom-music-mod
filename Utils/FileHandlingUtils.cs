@@ -20,16 +20,24 @@ namespace NickCustomMusicMod.Utils
 			return folderName;
 		}
 
-		public static void UpdateOldFormat(string folderPath)
+		public static void RenameFolderOrMoveFiles(string folderPath)
 		{
 			var folderName = Path.GetFileName(folderPath);
 
-			if (Consts.StageIDs.ContainsValue(folderName))
+			if (Consts.StageIDs.ContainsValue(folderName)) ConvertIdToDictName(folderPath, Consts.StageIDs);
+			if (Consts.CharacterIDs.ContainsValue(folderName)) ConvertIdToDictName(folderPath, Consts.CharacterIDs);
+		}
+
+		private static void ConvertIdToDictName(string folderPath, Dictionary<string, string> dict)
+		{
+			var folderName = Path.GetFileName(folderPath);
+
+			if (dict.ContainsValue(folderName))
 			{
 				string updatedStageName = "";
-				foreach (string key in Consts.StageIDs.Keys)
+				foreach (string key in dict.Keys)
 				{
-					if (Consts.StageIDs[key] == folderName)
+					if (dict[key] == folderName)
 					{
 						updatedStageName = key;
 					}

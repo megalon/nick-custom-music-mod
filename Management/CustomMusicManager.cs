@@ -67,7 +67,7 @@ namespace NickCustomMusicMod.Management
 			// Copy files from old folders to new
 			foreach (string directory in subDirectories)
 			{
-				FileHandlingUtils.UpdateOldFormat(directory);
+				FileHandlingUtils.RenameFolderOrMoveFiles(directory);
 			}
 
 			// Since we may have deleted folders in the previous step, get the list again
