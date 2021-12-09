@@ -20,47 +20,68 @@ namespace NickCustomMusicMod.Utils
 			return folderName;
 		}
 
-		public static void UpdateOldFormat(string folderPath)
+		public static void RenameFolderOrMoveFiles(string folderPath)
 		{
 			var folderName = Path.GetFileName(folderPath);
 
-			if (Consts.StageIDs.ContainsValue(folderName))
+			if (Consts.StageIDs.ContainsValue(folderName)) ConvertIdToDictName(folderPath, Consts.StageIDs);
+			if (Consts.CharacterIDs.ContainsValue(folderName)) ConvertIdToDictName(folderPath, Consts.CharacterIDs);
+
+			// Fix old typo
+			if (folderName.Equals("Technodrom Takedown")) RenameFolder(folderPath, "Technodrome Takedown");
+		}
+
+		private static void ConvertIdToDictName(string folderPath, Dictionary<string, string> dict)
+		{
+			var folderName = Path.GetFileName(folderPath);
+
+			if (dict.ContainsValue(folderName))
 			{
-				string updatedStageName = "";
-				foreach (string key in Consts.StageIDs.Keys)
+				string updatedFolderName = "";
+				foreach (string key in dict.Keys)
 				{
-					if (Consts.StageIDs[key] == folderName)
+					if (dict[key] == folderName)
 					{
-						updatedStageName = key;
+						updatedFolderName = key;
 					}
 				}
 
-				// StageID and display name are the same. EX: Omashu
-				if (folderName.Equals(updatedStageName))
-				{
-					return;
-				}
-
-				string updatedFolderPath = Path.Combine(Directory.GetParent(folderPath).FullName, updatedStageName);
-
-				try
-				{
-					Plugin.LogInfo($"Renaming \"{folderName}\" to \"{updatedStageName}\"...");
-					Directory.Move(folderPath, updatedFolderPath);
-				}
-				catch (IOException ex)
-				{
-					Plugin.LogInfo($"Could not rename directory \"{folderName}\"! Maybe the new directory already exists?");
-					Plugin.LogInfo($"Attempting to copy files from \"{folderName}\" to \"{updatedStageName}\" instead.");
-					CopyFilesAndDeleteOriginalFolder(folderPath, updatedFolderPath);
-				}
-				catch (Exception ex)
-				{
-					Plugin.LogError($"Failed to rename old folder \"{folderName}\" to \"{updatedStageName}\"!");
-					Plugin.LogError($"Exception {ex.Message}");
-				}
+				RenameFolder(folderPath, updatedFolderName);
 			}
 		}
+
+		public static bool RenameFolder(string folderPath, string updatedFolderName)
+        {
+			var folderName = Path.GetFileName(folderPath);
+
+			// StageID and display name are the same. EX: Omashu
+			if (folderName.Equals(updatedFolderName))
+			{
+				return true;
+			}
+
+			string updatedFolderPath = Path.Combine(Directory.GetParent(folderPath).FullName, updatedFolderName);
+
+			try
+			{
+				Plugin.LogInfo($"Renaming \"{folderName}\" to \"{updatedFolderName}\"...");
+				Directory.Move(folderPath, updatedFolderPath);
+			}
+			catch (IOException ex)
+			{
+				Plugin.LogInfo($"Could not rename directory \"{folderName}\"! Maybe the new directory already exists?");
+				Plugin.LogInfo($"Attempting to copy files from \"{folderName}\" to \"{updatedFolderName}\" instead.");
+				return CopyFilesAndDeleteOriginalFolder(folderPath, updatedFolderPath);
+			}
+			catch (Exception ex)
+			{
+				Plugin.LogError($"Failed to rename old folder \"{folderName}\" to \"{updatedFolderName}\"!");
+				Plugin.LogError($"Exception {ex.Message}");
+				return false;
+			}
+
+			return true;
+        } 
 
 		public static bool CopyFilesAndDeleteOriginalFolder(string originalDirPath, string targetDirPath)
 		{
