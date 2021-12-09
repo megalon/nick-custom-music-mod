@@ -29,7 +29,7 @@ namespace NickCustomMusicMod.Utils
             { "Showdown at Teeter Totter Gulch", "Playground" },
             { "Space Madness", "DuoMadness" },
             { "Sweet Dreams", "GarfieldDream" },
-            { "Technodrom Takedown", "Drome" },
+            { "Technodrome Takedown", "Drome" },
             { "The Dump", "Trash" },
             { "The Flying Dutchmans Ship", "Shanty" },
             { "The Loud House", "Loud" },

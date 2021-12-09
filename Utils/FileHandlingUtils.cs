@@ -26,6 +26,9 @@ namespace NickCustomMusicMod.Utils
 
 			if (Consts.StageIDs.ContainsValue(folderName)) ConvertIdToDictName(folderPath, Consts.StageIDs);
 			if (Consts.CharacterIDs.ContainsValue(folderName)) ConvertIdToDictName(folderPath, Consts.CharacterIDs);
+
+			// Fix old typo
+			if (folderName.Equals("Technodrom Takedown")) RenameFolder(folderPath, "Technodrome Takedown");
 		}
 
 		private static void ConvertIdToDictName(string folderPath, Dictionary<string, string> dict)
