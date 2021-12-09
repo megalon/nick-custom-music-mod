@@ -28,6 +28,7 @@ namespace NickCustomMusicMod.Utils
             { "Sewers Slam", "SewersCombined" },
             { "Showdown at Teeter Totter Gulch", "Playground" },
             { "Space Madness", "DuoMadness" },
+            { "Sweet Dreams", "GarfieldDream" },
             { "Technodrom Takedown", "Drome" },
             { "The Dump", "Trash" },
             { "The Flying Dutchmans Ship", "Shanty" },
@@ -67,7 +68,8 @@ namespace NickCustomMusicMod.Utils
             { "Nigel Thornberry", "char_narrator" },
             { "Helga", "char_rival" },
             { "Danny Phantom", "char_plasma" },
-            { "Oblina", "char_snake" }
+            { "Oblina", "char_snake" },
+            { "Garfield", "char_orb" }
         };
     }
 }
