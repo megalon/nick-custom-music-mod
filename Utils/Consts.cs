@@ -27,6 +27,7 @@ namespace NickCustomMusicMod.Utils
             { "Royal Woods Cemetery", "YMC" },
             { "Sewers Slam", "SewersCombined" },
             { "Showdown at Teeter Totter Gulch", "Playground" },
+            { "Slime Time", "DoubleDare" },
             { "Space Madness", "DuoMadness" },
             { "Sweet Dreams", "GarfieldDream" },
             { "Technodrome Takedown", "Drome" },
@@ -69,7 +70,8 @@ namespace NickCustomMusicMod.Utils
             { "Helga", "char_rival" },
             { "Danny Phantom", "char_plasma" },
             { "Oblina", "char_snake" },
-            { "Garfield", "char_orb" }
+            { "Garfield", "char_orb" },
+            { "Shredder", "char_cheese" }
         };
     }
 }
