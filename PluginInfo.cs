@@ -8,6 +8,6 @@ namespace NickCustomMusicMod
     {
         public const string PLUGIN_GUID = "megalon.nick_custom_music_mod";
         public const string PLUGIN_NAME = "NickCustomMusicMod";
-        public const string PLUGIN_VERSION = "1.5.1";
+        public const string PLUGIN_VERSION = "1.5.2";
     }
 }
