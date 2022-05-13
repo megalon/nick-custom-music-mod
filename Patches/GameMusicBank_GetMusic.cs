@@ -131,7 +131,7 @@ namespace NickCustomMusicMod.Patches
 
 			GameMusicSystem gmsInstance;
 			if (GameMusicSystem.TryGetInstance(out gmsInstance)) {
-				gmsInstance.InvokeMethod("play", entry.id, music);
+				gmsInstance.InvokeMethod("play", entry.id, music, 0);
 			};
 
 			yield break;
