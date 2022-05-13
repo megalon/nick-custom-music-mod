@@ -71,7 +71,8 @@ namespace NickCustomMusicMod.Utils
             { "Danny Phantom", "char_plasma" },
             { "Oblina", "char_snake" },
             { "Garfield", "char_orb" },
-            { "Shredder", "char_cheese" }
+            { "Shredder", "char_cheese" },
+            { "Jenny", "char_neo" }
         };
     }
 }
