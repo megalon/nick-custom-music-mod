@@ -35,6 +35,7 @@ namespace NickCustomMusicMod.Utils
             { "The Flying Dutchmans Ship", "Shanty" },
             { "The Loud House", "Loud" },
             { "Traffic Jam", "Stomp" },
+            { "Tremorton Joyride", "NeoFrontHouse"},
             { "Western Air Temple", "Temple2" },
             { "Wild Waterfall", "Waterfall" }
         };
