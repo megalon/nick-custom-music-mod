@@ -50,6 +50,7 @@ namespace NickCustomMusicMod.Patches
 
 					if (randInt >= numCustomSongs) {
 						Plugin.LogInfo("Randomly selected default music instead of custom songs!");
+						HandleDynamicMusicChangers(true);
 					} else {
 						string randomSong = musicDict.Keys.ToArray<string>()[randInt];
 						MusicItem musicEntry = musicDict[randomSong];
@@ -87,6 +88,7 @@ namespace NickCustomMusicMod.Patches
 				{
 					Plugin.LogInfo("Loading song: " + musicItem.resLocation);
 					Plugin.Instance.StartCoroutine(LoadCustomSong(musicItem));
+					HandleDynamicMusicChangers(false);
 					return false;
 				}
 
@@ -187,6 +189,31 @@ namespace NickCustomMusicMod.Patches
 			{
 				Plugin.LogInfo($"No json file found for {Path.GetFileName(entry.resLocation)}");
 			}
-		} 
+		}
+
+		/// <summary>
+		/// Disable or enable the dynamic music changers for stages that change the song based on some dynamic event
+		/// For example, the different stage phases on Tremorton Joyride
+		/// </summary>
+		/// <param name="enable"></param>
+		private static void HandleDynamicMusicChangers(bool enable)
+		{
+			// This is pretty lazy, but it should be OK
+			var dynamicMusicChangers = Resources.FindObjectsOfTypeAll(typeof(DynamicMusicChanger));
+
+			if (dynamicMusicChangers.Length <= 0)
+			{
+				Plugin.LogDebug("Did not find any dynamicMusicChangers!");
+				return;
+			}
+
+			foreach (DynamicMusicChanger dynamicMusicChanger in dynamicMusicChangers)
+			{
+				if (dynamicMusicChanger.gameObject.activeInHierarchy == enable) continue;
+
+				Plugin.LogDebug($"{(enable ? "Enabling " : "Disabling ")} DynamicMusicChanger \"{dynamicMusicChanger.gameObject.name}\"!");
+				dynamicMusicChanger.gameObject.SetActive(enable);
+			};
+		}
 	}
 }
