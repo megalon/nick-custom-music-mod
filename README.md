@@ -11,6 +11,10 @@ Download the latest version of this mod from the [Slime Mod Manager](https://git
 
 ## ℹ Usage
 
+For basic usage see the simple format shown below.
+
+For more advanced usage, see [Song Packs](#-song-packs-advanced-usage).
+
 ### Folder structure
 ```
 BepInEx
@@ -64,6 +68,63 @@ When `62.215` seconds have elapsed in the song, it will loop back to `16.109` se
 To find loop points in your song, you can use some free audio software like [Audacity](https://www.audacityteam.org/).
 
 I would recommend using a DAW with more precise BPM / looping support, such as Reaper, Ableton Live, FL Studio, etc.
+
+## 🎵 Song Packs *(Advanced Usage)*
+
+Version 1.4.0 added **Song Pack** support.
+
+A Song Pack is a more efficient way to reuse songs across multiple stages / menus / victory themes!
+
+```
+↳ SongPack1
+    ↳ _Music Bank
+        ↳ song1.mp3
+        ↳ different-song.ogg
+        ↳ looped-song.mp3
+        ↳ looped-song.json
+        ↳ 4th-song.ogg
+          ...
+    ↳ Menus
+        ↳ ArcadeMap.txt
+        ↳ LoseV1.txt
+          ...
+    ↳ Stages
+        ↳ CatDogs House.txt
+        ↳ Ghost Zone.txt
+          ...
+    ↳ Victory Themes
+        ↳ Aang.txt
+        ↳ April.txt
+          ...
+```
+
+How to make a Song Pack
+1. Download an extract this [Song Pack Template.zip](https://github.com/megalon/nick-custom-music-mod/files/7394635/Song.Pack.Template.zip)
+1. Navigate into the `CustomSongs/_Song Packs/Template Song Pack/` folder.
+1. Place all of the songs you want to use in this song pack into the `_Music Bank` folder.
+1. Open the text file for the menu / stage / victory theme you want to add music to. For example, the main menu is `Menus/MainMenu.txt`
+1. In this text file, enter a list of song file names from the `_Music Bank` folder that you want to play on this menu / stage / victory theme. The order doesn't matter, but __***you must put each song on it's own line!***__
+
+Example `MainMenu.txt`:
+```
+song1.mp3
+looped-song.mp3
+different-song.ogg
+```
+You can then reuse these songs in other menus / stages / victory themes!
+
+Example `Jellyfish Fields.txt`
+```
+song1.mp3
+looped-song.mp3
+4th-song.ogg
+```
+
+When you're finished making your Song Pack, be sure to rename the `Template Song Pack` folder to the name of your Song Pack.
+
+Finally, zip the entire folder structure `CustomSongs/_Song Packs/{your song pack}`. Be sure to only include your Song Pack, and not the rest of your custom songs! 
+
+**Note:** *If you want the songs to loop at specific points, you will need to place corresponding json files in the `_Music Bank` folder as well. See [Loop Points.](#-loop-points-optional)*
 
 ## 📝 Configuration
 
