@@ -16,8 +16,10 @@ namespace NickCustomMusicMod.Utils
 
         public static readonly Dictionary<string, string> StageIDs = new Dictionary<string,string> {
             { "CatDogs House", "House" },
+            {"Duck Duck Pie", "RocketFantasy" },
             { "Ghost Zone", "Zone" },
             { "Glove World", "CarnivalLofi" },
+            { "Hardcore Chores", "SquirrelStage" },
             { "Harmonic Convergence", "SpiritWorld" },
             { "Irken Armada Invasion", "Armada" },
             { "Jellyfish Fields", "SlideHouse" },
