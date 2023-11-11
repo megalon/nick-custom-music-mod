@@ -1,4 +1,6 @@
-# NASB Custom Music Mod
+# ⚠️ This is the mod for NASB1. [Click here for NASB2](https://github.com/megalon/nasb2-custom-music-mod) ⚠️
+
+## NASB Custom Music Mod
 
 This mod allows you to add custom songs to each stage and menu in the game!
 _____
