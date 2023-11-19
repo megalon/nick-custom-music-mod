@@ -20,7 +20,7 @@
       <HintPath>$(GameDir)\BepInEx\core\0Harmony.dll</HintPath>
     </Reference>
     <Reference Include="Assembly-CSharp">
-      <HintPath>$(GameDir)\Nickelodeon All-Star Brawl_Data\Managed\Assembly-CSharp.dll</HintPath>
+      <HintPath>$(GameDir)\Launcher Nickelodeon All-Star Brawl_Data\Managed\Assembly-CSharp.dll</HintPath>
     </Reference>
     <Reference Include="BepInEx">
       <HintPath>$(GameDir)\BepInEx\core\BepInEx.dll</HintPath>
@@ -29,22 +29,22 @@
       <HintPath>$(GameDir)\BepInEx\core\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine">
-      <HintPath>$(GameDir)\Nickelodeon All-Star Brawl_Data\Managed\UnityEngine.dll</HintPath>
+      <HintPath>$(GameDir)\Launcher Nickelodeon All-Star Brawl_Data\Managed\UnityEngine.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AudioModule">
-      <HintPath>$(GameDir)\Nickelodeon All-Star Brawl_Data\Managed\UnityEngine.AudioModule.dll</HintPath>
+      <HintPath>$(GameDir)\Launcher Nickelodeon All-Star Brawl_Data\Managed\UnityEngine.AudioModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
-      <HintPath>$(GameDir)\Nickelodeon All-Star Brawl_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+      <HintPath>$(GameDir)\Launcher Nickelodeon All-Star Brawl_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UnityWebRequestAudioModule">
-      <HintPath>$(GameDir)\Nickelodeon All-Star Brawl_Data\Managed\UnityEngine.UnityWebRequestAudioModule.dll</HintPath>
+      <HintPath>$(GameDir)\Launcher Nickelodeon All-Star Brawl_Data\Managed\UnityEngine.UnityWebRequestAudioModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UnityWebRequestModule">
-      <HintPath>$(GameDir)\Nickelodeon All-Star Brawl_Data\Managed\UnityEngine.UnityWebRequestModule.dll</HintPath>
+      <HintPath>$(GameDir)\Launcher Nickelodeon All-Star Brawl_Data\Managed\UnityEngine.UnityWebRequestModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UnityWebRequestWWWModule">
-      <HintPath>$(GameDir)\Nickelodeon All-Star Brawl_Data\Managed\UnityEngine.UnityWebRequestWWWModule.dll</HintPath>
+      <HintPath>$(GameDir)\Launcher Nickelodeon All-Star Brawl_Data\Managed\UnityEngine.UnityWebRequestWWWModule.dll</HintPath>
     </Reference>
   </ItemGroup>
 
